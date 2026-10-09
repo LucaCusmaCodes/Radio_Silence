@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &9015210383684440159
+--- !u!1001 &4235250480537158803
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -90,15 +90,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3061295363979837232, guid: 2e8fd8d53f342f14b9707d96eb626e43, type: 3}
       propertyPath: m_text
-      value: 'Roommate: Why did you clean up! My stuff is disorganized! SCREW YOU!!!!!'
+      value: Why would you make such a thing? Its disgusting!
       objectReference: {fileID: 0}
     - target: {fileID: 5292962224776660207, guid: 2e8fd8d53f342f14b9707d96eb626e43, type: 3}
       propertyPath: m_Name
-      value: Mad Roommate
+      value: Text
       objectReference: {fileID: 0}
     - target: {fileID: 6519606316907218617, guid: 2e8fd8d53f342f14b9707d96eb626e43, type: 3}
       propertyPath: m_Name
-      value: Notification Canvas Variant
+      value: Bad Food
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
