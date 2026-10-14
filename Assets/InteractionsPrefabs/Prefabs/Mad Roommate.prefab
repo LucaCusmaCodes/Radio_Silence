@@ -90,7 +90,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3061295363979837232, guid: 2e8fd8d53f342f14b9707d96eb626e43, type: 3}
       propertyPath: m_text
-      value: 'Roommate: Why did you clean up! My stuff is disorganized! Screw you!'
+      value: 'Roommate: Why did you clean up! My stuff is now disorganized! Screw
+        you!'
       objectReference: {fileID: 0}
     - target: {fileID: 3061295363979837232, guid: 2e8fd8d53f342f14b9707d96eb626e43, type: 3}
       propertyPath: m_margin.z
