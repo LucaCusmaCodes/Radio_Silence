@@ -90,7 +90,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3061295363979837232, guid: 2e8fd8d53f342f14b9707d96eb626e43, type: 3}
       propertyPath: m_text
-      value: Why would you make such a thing? Its disgusting!
+      value: Why would you make such a thing? It's disgusting!
+      objectReference: {fileID: 0}
+    - target: {fileID: 3061295363979837232, guid: 2e8fd8d53f342f14b9707d96eb626e43, type: 3}
+      propertyPath: m_fontSize
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3061295363979837232, guid: 2e8fd8d53f342f14b9707d96eb626e43, type: 3}
+      propertyPath: m_margin.x
+      value: -500.23322
+      objectReference: {fileID: 0}
+    - target: {fileID: 3061295363979837232, guid: 2e8fd8d53f342f14b9707d96eb626e43, type: 3}
+      propertyPath: m_margin.z
+      value: -105.32788
+      objectReference: {fileID: 0}
+    - target: {fileID: 3061295363979837232, guid: 2e8fd8d53f342f14b9707d96eb626e43, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 5292962224776660207, guid: 2e8fd8d53f342f14b9707d96eb626e43, type: 3}
       propertyPath: m_Name
@@ -102,7 +118,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7491204694589312970, guid: 2e8fd8d53f342f14b9707d96eb626e43, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 87
+      value: 189
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

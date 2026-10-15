@@ -4945,9 +4945,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1507583717926331660, guid: 557b481083811994c9332e092e1afb33, type: 3}
+      propertyPath: m_fontSize
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507583717926331660, guid: 557b481083811994c9332e092e1afb33, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 75
+      objectReference: {fileID: 0}
     - target: {fileID: 1582526762641076007, guid: 557b481083811994c9332e092e1afb33, type: 3}
       propertyPath: m_Name
       value: MenuManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683599587482052678, guid: 557b481083811994c9332e092e1afb33, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 335.1631
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683599587482052678, guid: 557b481083811994c9332e092e1afb33, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 109.3865
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683599587482052678, guid: 557b481083811994c9332e092e1afb33, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 29
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683599587482052678, guid: 557b481083811994c9332e092e1afb33, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -37.5373
       objectReference: {fileID: 0}
     - target: {fileID: 4965538813165425715, guid: 557b481083811994c9332e092e1afb33, type: 3}
       propertyPath: m_LocalPosition.x
