@@ -4012,13 +4012,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1220545333}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.6819836, y: -0, z: -0, w: 0.73136747}
-  m_LocalPosition: {x: -0.04023368, y: 2.065648, z: -0.014042208}
+  m_LocalRotation: {x: -0.58148986, y: -0.35633004, z: -0.38213265, w: 0.6235969}
+  m_LocalPosition: {x: -0.04023007, y: 2.065646, z: -0.014041995}
   m_LocalScale: {x: 1.2942369, y: 0.1828057, z: -1.7995002}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 847339111}
-  m_LocalEulerAnglesHint: {x: -85.998, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -85.998, y: 0, z: -62.999}
 --- !u!136 &1220545335
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4437,15 +4437,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2862278905927072855, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -22.210218
+      value: -22.210217
       objectReference: {fileID: 0}
     - target: {fileID: 2862278905927072855, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.161318
+      value: 10.161317
       objectReference: {fileID: 0}
     - target: {fileID: 2862278905927072855, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -23.94879
+      value: -23.948788
       objectReference: {fileID: 0}
     - target: {fileID: 4253012990419024484, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -7916,13 +7916,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2115091027}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.6819836, y: -0, z: -0, w: 0.73136747}
-  m_LocalPosition: {x: -0.04023368, y: 2.065648, z: -0.014042208}
+  m_LocalRotation: {x: -0.60568744, y: 0.3034779, z: 0.3864547, w: 0.6258568}
+  m_LocalPosition: {x: -0.04023408, y: 2.0656466, z: -0.014042758}
   m_LocalScale: {x: 1.2942369, y: 0.1828057, z: -1.7995002}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1851983704}
-  m_LocalEulerAnglesHint: {x: -85.998, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -83.077, y: -47.08, z: 105.596}
 --- !u!136 &2115091029
 CapsuleCollider:
   m_ObjectHideFlags: 0
