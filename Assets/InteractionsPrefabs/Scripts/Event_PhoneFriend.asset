@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9671e058f193904dba6861196a22e70, type: 3}
+  m_Name: Event_PhoneFriend
+  m_EditorClassIdentifier: Assembly-CSharp::ChoiceEvent
+  eventPrompt: I've been feeling horrible ever since she left me, idk what to do.
+  timeLimitSeconds: 10
+  replyButtonText: Reply
+  replyOutcomeText: That doesn't help you jerk.
+  replyScoreChange: 0
+  ignoreOutcomeText: 
+  ignoreScoreChange: 1
