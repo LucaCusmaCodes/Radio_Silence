@@ -62,16 +62,20 @@ public class Menu : MonoBehaviour
 
         MenuOpen = !MenuOpen;
 
-        } 
+        }
 
 
     public void Restart()
     {
         Debug.Log("Restart");
-        SceneManager.LoadScene(0);
+
+        // Reset time and inputs BEFORE loading the scene
         Time.timeScale = 1.0f;
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = false;
+
+        // Load the scene last
+        SceneManager.LoadScene(0);
     }
 
     public void exit()
