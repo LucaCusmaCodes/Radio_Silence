@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6592324532642510616}
   - component: {fileID: 2636582244577590258}
   - component: {fileID: 3730426548174554489}
+  - component: {fileID: 7111187009917774495}
   m_Layer: 0
   m_Name: Box 5
   m_TagString: Untagged
@@ -140,6 +141,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7111187009917774495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893181087390154273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 033ac20ceaf30b048b665a26f26bd345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableHighlight
+  targetRenderer: {fileID: 0}
+  glowColor: {r: 0, g: 1, b: 1, a: 1}
+  pulseSpeed: 1.5
+  minIntensity: 0
+  maxIntensity: 0.5
+  fadeSpeed: 5
 --- !u!1 &1045547817575267797
 GameObject:
   m_ObjectHideFlags: 0
@@ -153,6 +172,7 @@ GameObject:
   - component: {fileID: 7387536623886765448}
   - component: {fileID: 3641332703972398270}
   - component: {fileID: 8210036187599843857}
+  - component: {fileID: 8900063623047427268}
   m_Layer: 0
   m_Name: Box 4
   m_TagString: Untagged
@@ -280,6 +300,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8900063623047427268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045547817575267797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 033ac20ceaf30b048b665a26f26bd345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableHighlight
+  targetRenderer: {fileID: 0}
+  glowColor: {r: 0, g: 1, b: 1, a: 1}
+  pulseSpeed: 1.5
+  minIntensity: 0
+  maxIntensity: 0.5
+  fadeSpeed: 5
 --- !u!1 &2154749811359984181
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,6 +331,7 @@ GameObject:
   - component: {fileID: 9195946907232151859}
   - component: {fileID: 2508481209595233686}
   - component: {fileID: 1493215846289535347}
+  - component: {fileID: 6974086086796310445}
   m_Layer: 0
   m_Name: Mess
   m_TagString: Untagged
@@ -411,6 +450,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CleanableMess
   cleanSound: {fileID: 8300000, guid: 093de8511a6491749844be44d16aac43, type: 3}
+--- !u!114 &6974086086796310445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2154749811359984181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 033ac20ceaf30b048b665a26f26bd345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableHighlight
+  targetRenderer: {fileID: 0}
+  glowColor: {r: 0, g: 1, b: 1, a: 1}
+  pulseSpeed: 1.5
+  minIntensity: 0
+  maxIntensity: 0.5
+  fadeSpeed: 5
 --- !u!1 &5067364686347853372
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,6 +481,7 @@ GameObject:
   - component: {fileID: 8241266943385056180}
   - component: {fileID: 7642956379703315166}
   - component: {fileID: 5384921610822234204}
+  - component: {fileID: 1977934230294983269}
   m_Layer: 0
   m_Name: Box 1
   m_TagString: Untagged
@@ -551,6 +609,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1977934230294983269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5067364686347853372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 033ac20ceaf30b048b665a26f26bd345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableHighlight
+  targetRenderer: {fileID: 0}
+  glowColor: {r: 0, g: 1, b: 1, a: 1}
+  pulseSpeed: 1.5
+  minIntensity: 0
+  maxIntensity: 0.5
+  fadeSpeed: 5
 --- !u!1 &5724710717882589787
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,6 +640,7 @@ GameObject:
   - component: {fileID: 7936420639230954188}
   - component: {fileID: 5690541738462980960}
   - component: {fileID: 4929689567393878561}
+  - component: {fileID: 449801336306045627}
   m_Layer: 0
   m_Name: Box 2
   m_TagString: Untagged
@@ -691,6 +768,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &449801336306045627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5724710717882589787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 033ac20ceaf30b048b665a26f26bd345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableHighlight
+  targetRenderer: {fileID: 0}
+  glowColor: {r: 0, g: 1, b: 1, a: 1}
+  pulseSpeed: 1.5
+  minIntensity: 0
+  maxIntensity: 0.5
+  fadeSpeed: 5
 --- !u!1 &8496811064723168467
 GameObject:
   m_ObjectHideFlags: 0
@@ -704,6 +799,7 @@ GameObject:
   - component: {fileID: 7472466223688700323}
   - component: {fileID: 4317436548933549082}
   - component: {fileID: 7274183721273155193}
+  - component: {fileID: 9071684629300185698}
   m_Layer: 0
   m_Name: Box 3
   m_TagString: Untagged
@@ -831,3 +927,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &9071684629300185698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8496811064723168467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 033ac20ceaf30b048b665a26f26bd345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableHighlight
+  targetRenderer: {fileID: 0}
+  glowColor: {r: 0, g: 1, b: 1, a: 1}
+  pulseSpeed: 1.5
+  minIntensity: 0
+  maxIntensity: 0.5
+  fadeSpeed: 5
