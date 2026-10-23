@@ -9,6 +9,10 @@ public class KitchenBreakfastManager : MonoBehaviour
     public Image timerFillBar;
     public float decisionTimeLimit = 7.0f;
 
+    [Header("UI Spawn Settings")]
+    public GameObject dialogueCanvasPrefab; // Drag your Dialogue Canvas Prefab here
+    public Transform uiSpawnPoint;          // Drag your uiSpawnPoint GameObject here
+
     [Header("State")]
     private bool isCookingActive = false;
     private int platesMade = 0;
@@ -87,6 +91,9 @@ public class KitchenBreakfastManager : MonoBehaviour
                 GameManager.Instance.ProcessChoice("You took the time to make breakfast for both of you.", 0);
                 Debug.Log($"[Breakfast Event Complete] Choice: Moral (2 Plates) | Total Score: {GameManager.Instance.internalScore}");
             }
+
+            // Spawn dialogue canvas for successful choice
+            SpawnDialogueCanvas();
         }
     }
 
@@ -114,6 +121,23 @@ public class KitchenBreakfastManager : MonoBehaviour
         {
             GameManager.Instance.ProcessChoice("You only made breakfast for yourself.", 1);
             Debug.Log($"[Breakfast Event Complete] Choice: Selfish (1 Plate) | Total Score: {GameManager.Instance.internalScore}");
+        }
+
+        // Spawn dialogue canvas when timer runs out (selfish path)
+        SpawnDialogueCanvas();
+    }
+
+    private void SpawnDialogueCanvas()
+    {
+        if (dialogueCanvasPrefab != null && uiSpawnPoint != null)
+        {
+            GameObject spawnedCanvas = Instantiate(dialogueCanvasPrefab, uiSpawnPoint.position, uiSpawnPoint.rotation);
+            spawnedCanvas.transform.SetParent(uiSpawnPoint, false);
+            Debug.Log("[KitchenBreakfastManager] Dialogue canvas spawned successfully at uiSpawnPoint.");
+        }
+        else
+        {
+            Debug.LogWarning("⚠️ Dialogue Canvas Prefab or UI Spawn Point is unassigned in KitchenBreakfastManager!");
         }
     }
 

@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class BedInteraction : MonoBehaviour
 {
+    [Header("Audio Settings")]
+    public AudioClip interactionSound; // Drag your bed creak/rustle sound here
+    [Range(0f, 1f)] public float soundVolume = 1.0f;
+
     [Header("Fader Reference")]
     public Fader screenFader;
 
@@ -29,6 +33,12 @@ public class BedInteraction : MonoBehaviour
     private IEnumerator SleepAndTeleportRoutine()
     {
         hasSlept = true;
+
+        // Play the interaction sound immediately when interacting
+        if (interactionSound != null)
+        {
+            AudioSource.PlayClipAtPoint(interactionSound, transform.position, soundVolume);
+        }
 
         // 1. Get all mess objects in the scene
         CleanableMess[] foundMesses = Object.FindObjectsByType<CleanableMess>(FindObjectsSortMode.None);
