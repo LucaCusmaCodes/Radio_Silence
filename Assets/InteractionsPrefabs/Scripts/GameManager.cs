@@ -22,6 +22,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        // Log the current internal score to the Console every frame
+        Debug.Log($"[GameManager] Current Score: {internalScore}");
+    }
+
     public void ProcessChoice(string outcomeMessage, int scoreDelta)
     {
         internalScore += scoreDelta;

@@ -5,7 +5,19 @@ public class MainMenu : MonoBehaviour
 {
     public void PlayGame()
     {
-        // Loads the next scene in your Build Settings order
+        // 1. Reset persistent game score for a new run
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.internalScore = 0;
+        }
+
+        // 2. Reset music pitch back to normal
+        if (MusicManager.Instance != null)
+        {
+            MusicManager.Instance.ResetPitch();
+        }
+
+        // 3. Load the gameplay scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 

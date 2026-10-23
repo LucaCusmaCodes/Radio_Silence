@@ -11,6 +11,7 @@ public class ChoiceEvent : ScriptableObject
     public string replyButtonText;                     // "Reply with support"
     [TextArea(2, 4)] public string replyOutcomeText;   // "Friend: 'Stop acting like you care.'"
     public int replyScoreChange = 0;                  // Punished / No reward
+    public AudioClip replySound;                      // <--- THIS IS THE AUDIO CLIP FIELD
 
     [Header("Apathetic Inaction (Wait Out Timer)")]
     [TextArea(2, 4)] public string ignoreOutcomeText;  // "You put the phone down."

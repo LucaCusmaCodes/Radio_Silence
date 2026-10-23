@@ -7,13 +7,12 @@ public class WakeUpController : MonoBehaviour
     private Fader screenFader;
 
     [Header("Waking Up Settings")]
-    public float initialDelay = 0.5f;   // Brief pause before opening eyes
-    public float fadeDuration = 2.5f;   // Time to fully open eyes
-    public bool performBlink = true;    // Optional groggy double-blink
+    public float initialDelay = 0.5f;
+    public float fadeDuration = 2.5f;
+    public bool performBlink = true;
 
     private void Awake()
     {
-        // Automatically grabs the Fader script attached to this exact same GameObject
         screenFader = GetComponent<Fader>();
     }
 
@@ -21,8 +20,12 @@ public class WakeUpController : MonoBehaviour
     {
         if (screenFader != null)
         {
-            // Start completely black every time this scene loads fresh
             screenFader.SetAlpha(1.0f);
+
+            // Ensure mouse is free/visible while waking up in darkness
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
             StartCoroutine(WakeUpSequence());
         }
     }
@@ -33,13 +36,16 @@ public class WakeUpController : MonoBehaviour
 
         if (performBlink)
         {
-            // First quick, groggy half-open blink
             yield return StartCoroutine(screenFader.FadeRoutine(0.5f, 0.4f));
             yield return StartCoroutine(screenFader.FadeRoutine(1.0f, 0.3f));
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.3f); // Fixed space here!
         }
 
         // Full eye opening
         yield return StartCoroutine(screenFader.FadeRoutine(0.0f, fadeDuration));
+
+        // ---> EYES ARE OPEN: Lock mouse for normal gameplay! <---
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }

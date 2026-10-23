@@ -19,6 +19,9 @@ public class PhoneTimerUI : MonoBehaviour
     public float friendReplyDelay = 1.5f;   // Seconds before friend sends annoyed response
     public float dismissDelay = 2.5f;       // Seconds to read final outcome before phone closes
 
+    [Header("Audio")]
+    public AudioSource audioSource;         // Component that plays the sound
+
     private float timer;
     private bool isEventActive = false;
 
@@ -26,8 +29,6 @@ public class PhoneTimerUI : MonoBehaviour
     {
         // Hide phone at start of game until event triggers
         if (phoneContainer != null) phoneContainer.SetActive(false);
-
-        
     }
 
     public void StartEvent(ChoiceEvent evt)
@@ -84,6 +85,12 @@ public class PhoneTimerUI : MonoBehaviour
         if (!isEventActive) return;
         isEventActive = false;
 
+        // Play the custom reply sound assigned to this specific ChoiceEvent asset
+        if (currentEvent != null && currentEvent.replySound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(currentEvent.replySound);
+        }
+
         EndEventUI();
 
         // Start delayed friend reply conversation sequence
@@ -131,23 +138,32 @@ public class PhoneTimerUI : MonoBehaviour
         if (!isEventActive) return;
         isEventActive = false;
 
+        // ---> DROP THE MUSIC PITCH ON APATHETIC INACTION <---
+        if (MusicManager.Instance != null)
+        {
+            MusicManager.Instance.ApplyPitchDropStep();
+        }
+
+        // Darken the vignette overlay
+        if (VignetteController.Instance != null)
+        {
+            VignetteController.Instance.IncreaseDarkness();
+        }
+
         EndEventUI();
 
         string outcomeText = currentEvent.ignoreOutcomeText;
 
-        // Display outcome of ignoring the notification
         if (messageDisplay != null)
         {
             messageDisplay.text = outcomeText;
         }
 
-        // Process score in GameManager (+1 point for apathetic inaction)
         if (GameManager.Instance != null)
         {
             GameManager.Instance.ProcessChoice(outcomeText, currentEvent.ignoreScoreChange);
         }
 
-        // Keep text visible during reading delay before closing phone
         StartCoroutine(ClosePhoneDelayed(outcomeText));
     }
 
