@@ -2,12 +2,13 @@ using UnityEngine;
 
 public class TimedNotification : MonoBehaviour
 {
-    [Header("Settings")]
-    public float lifetimeSeconds = 5f; // How long the text stays on screen
+    [Header("Notification Settings")]
+    [Tooltip("Time in seconds before the notification is destroyed.")]
+    public float lifetime = 3.0f;
 
     void Start()
     {
-        // Automatically destroys this text canvas after 3 seconds
-        Destroy(gameObject, lifetimeSeconds);
+        // Automatically destroys this GameObject (and the Canvas) after 'lifetime' seconds
+        Destroy(gameObject, lifetime);
     }
 }
