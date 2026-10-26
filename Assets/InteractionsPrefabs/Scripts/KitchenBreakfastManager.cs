@@ -15,6 +15,7 @@ public class KitchenBreakfastManager : MonoBehaviour
 
     [Header("State")]
     private bool isCookingActive = false;
+    private int firstPlateID = 0;           // Tracks which plate was clicked first (1 or 2)
     private int platesMade = 0;
     private float currentTimer;
 
@@ -33,6 +34,7 @@ public class KitchenBreakfastManager : MonoBehaviour
     public void ResetState()
     {
         isCookingActive = false;
+        firstPlateID = 0;
         platesMade = 0;
         currentTimer = 0f;
 
@@ -62,9 +64,13 @@ public class KitchenBreakfastManager : MonoBehaviour
 
     public void OnPlateInteracted(int plateID)
     {
+        // If the event is already finished, ignore further clicks
+        if (platesMade >= 2 || (!isCookingActive && platesMade == 1)) return;
+
         if (platesMade == 0)
         {
-            // First plate made! Start timer
+            // First plate interacted with (works for Plate 1 OR Plate 2!)
+            firstPlateID = plateID;
             platesMade = 1;
             isCookingActive = true;
             currentTimer = decisionTimeLimit;
@@ -74,15 +80,18 @@ public class KitchenBreakfastManager : MonoBehaviour
                 timerFillBar.gameObject.SetActive(true);
                 timerFillBar.fillAmount = 1f;
             }
+
+            Debug.Log($"[KitchenBreakfastManager] First plate (ID: {plateID}) interacted with. Timer started!");
         }
-        else if (isCookingActive && platesMade == 1 && plateID == 2)
+        else if (isCookingActive && platesMade == 1 && plateID != firstPlateID)
         {
-            // Second plate made before timer expires
+            // Second (different) plate made before timer expires
             platesMade = 2;
             isCookingActive = false;
 
             if (timerFillBar != null)
             {
+                timerFillBar.fillAmount = 0f;
                 timerFillBar.gameObject.SetActive(false);
             }
 
@@ -100,9 +109,11 @@ public class KitchenBreakfastManager : MonoBehaviour
     private void OnTimerExpired()
     {
         isCookingActive = false;
+        platesMade = 2; // Prevent further interactions after expiration
 
         if (timerFillBar != null)
         {
+            timerFillBar.fillAmount = 0f;
             timerFillBar.gameObject.SetActive(false);
         }
 
