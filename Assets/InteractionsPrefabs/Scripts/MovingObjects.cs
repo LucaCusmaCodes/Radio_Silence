@@ -5,6 +5,7 @@ public class MovingObjects : MonoBehaviour
     [Header("References")]
     public GameObject ObjectToMove;
     public GameObject TargetPosition;
+    public DoorTriggerZone busDoorTrigger; // Drag your bus DoorTriggerZone here!
 
     [Header("Movement Settings")]
     public float SpeedMultiplier = 5f;
@@ -34,6 +35,12 @@ public class MovingObjects : MonoBehaviour
             audioSource.playOnAwake = false;   // Prevents it from playing before the ride starts
             audioSource.volume = volume;
             audioSource.spatialBlend = 1f;     // Set to 3D so it sounds positional in the world
+        }
+
+        // Auto-find door trigger if left empty in Inspector
+        if (busDoorTrigger == null)
+        {
+            busDoorTrigger = Object.FindFirstObjectByType<DoorTriggerZone>();
         }
     }
 
@@ -96,6 +103,16 @@ public class MovingObjects : MonoBehaviour
                 if (audioSource != null)
                 {
                     audioSource.Stop();
+                }
+
+                // --- RESET DOOR TRIGGER SO IT CAN OPEN WHEN EXITING ---
+                if (busDoorTrigger != null)
+                {
+                    busDoorTrigger.ResetTriggerState();
+
+                    // Optional: If you want the door to open automatically when the bus stops,
+                    // uncomment the line below:
+                    // busDoorTrigger.ExecuteDoorAction();
                 }
             }
         }

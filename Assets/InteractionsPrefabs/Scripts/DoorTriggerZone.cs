@@ -30,25 +30,11 @@ public class DoorTriggerZone : MonoBehaviour
         {
             if (triggerOnlyOnce && hasTriggered) return;
 
-            if (targetDoor != null)
-            {
-                switch (actionOnEnter)
-                {
-                    case DoorAction.Open:
-                        targetDoor.OpenDoor();
-                        break;
-                    case DoorAction.Close:
-                        targetDoor.CloseDoor();
-                        break;
-                    case DoorAction.Toggle:
-                        targetDoor.ToggleDoor();
-                        break;
-                }
-            }
+            ExecuteDoorAction();
 
             hasTriggered = true;
 
-            // Turn off the collider so it stops firing immediately
+            // Turn off the collider so it stops firing while inside/moving
             if (triggerOnlyOnce && triggerCollider != null)
             {
                 triggerCollider.enabled = false;
@@ -56,17 +42,36 @@ public class DoorTriggerZone : MonoBehaviour
         }
     }
 
-    // --- CALL THIS WHEN THE PLAYER ENTERS THE BUS ---
+    public void ExecuteDoorAction()
+    {
+        if (targetDoor != null)
+        {
+            switch (actionOnEnter)
+            {
+                case DoorAction.Open:
+                    targetDoor.OpenDoor();
+                    break;
+                case DoorAction.Close:
+                    targetDoor.CloseDoor();
+                    break;
+                case DoorAction.Toggle:
+                    targetDoor.ToggleDoor();
+                    break;
+            }
+        }
+    }
+
+    // --- CALL THIS WHEN THE BUS STOPS MOVING ---
     public void ResetTriggerState()
     {
         hasTriggered = false;
 
-        // Re-enable the collider so it can be triggered again later
+        // Re-enable the collider so it can trigger the exit
         if (triggerCollider != null)
         {
             triggerCollider.enabled = true;
         }
 
-        Debug.Log("[DoorTriggerZone] Trigger has been reset by the bus entry event.");
+        Debug.Log("[DoorTriggerZone] Trigger reset! Ready for door to open.");
     }
 }
