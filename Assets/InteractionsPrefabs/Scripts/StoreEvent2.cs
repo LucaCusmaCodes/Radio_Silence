@@ -1,4 +1,4 @@
-using System.Collections;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,26 +18,23 @@ public class StoreEvent2 : MonoBehaviour
     public GameObject manSpeechPrefab;
     public Transform spawnLocation;
 
-    [Header("Spawn Object On Interaction")]
+    [Header("Spawn Objects On Interaction")]
     public GameObject objectToSpawn;
     public Transform objectSpawnLocation;
 
-    [Header("Manager Walk Settings")]
-    public GameObject managerPrefab;              // Manager prefab spawned on interaction
-    public Transform managerSpawnLocation;        // Where the manager spawns
-    public Transform managerTargetPosition;       // Where the manager walks to
-    public float managerWalkSpeed = 3.0f;         // Walking speed
-
-    [Header("Manager Arrival Settings")]
-    public GameObject objectToSpawnOnArrival;     // Spawned when manager reaches destination
-    public Transform arrivalSpawnLocation;        // Where the arrival object spawns
+    public GameObject secondObjectToSpawn;
+    public Transform secondObjectSpawnLocation;
 
     [Header("End of Event Object Destruction")]
-    public GameObject objectToDestroyOnEnd;       // Destroyed when event finishes (either way)
+    public GameObject objectToDestroyOnEnd;
 
-    [Header("Spawn Object On Timeout")]
-    public GameObject objectToSpawnOnTimeout;     // Spawned when timer runs out
-    public Transform timeoutSpawnLocation;        // Where timeout object spawns
+    [Header("Spawn Objects On Timeout")]
+    public GameObject objectToSpawnOnTimeout;
+    public Transform timeoutSpawnLocation;
+
+    // NEW: Second object spawned when timer expires.
+    public GameObject secondObjectToSpawnOnTimeout;
+    public Transform secondTimeoutSpawnLocation;
 
     [Header("Player Visual Swap")]
     public Renderer playerRenderer;
@@ -49,8 +46,9 @@ public class StoreEvent2 : MonoBehaviour
     public int returnScoreChange = 0;
     public int keepScoreChange = 1;
 
-    [Header("Audio")]
+    [Header("Audio - Plays Only On Timeout")]
     public AudioClip returnSound;
+
     [Range(0f, 1f)]
     public float soundVolume = 1.0f;
 
@@ -68,7 +66,9 @@ public class StoreEvent2 : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && !playerMadeChoice && !isEventActive)
+        if (other.CompareTag("Player") &&
+            !playerMadeChoice &&
+            !isEventActive)
         {
             StartEvent();
         }
@@ -85,18 +85,20 @@ public class StoreEvent2 : MonoBehaviour
             timerFillBar.fillAmount = 1f;
         }
 
-        Debug.Log("[StoreEvent2] Trigger activated. Timer started!");
+        Debug.Log("[StoreEvent2] Timer started!");
     }
 
     private void Update()
     {
-        if (!isEventActive) return;
+        if (!isEventActive)
+            return;
 
         timer -= Time.deltaTime;
 
         if (timerFillBar != null && timeLimitSeconds > 0f)
         {
-            timerFillBar.fillAmount = Mathf.Clamp01(timer / timeLimitSeconds);
+            timerFillBar.fillAmount =
+                Mathf.Clamp01(timer / timeLimitSeconds);
         }
 
         if (Input.GetKeyDown(returnKey))
@@ -115,14 +117,17 @@ public class StoreEvent2 : MonoBehaviour
         playerMadeChoice = true;
 
         CloseUI();
+
+        // Destroy the designated object when the event ends.
         DestroyEndObject();
 
+        // Hide the wallet model.
         if (walletVisualModel != null)
         {
             walletVisualModel.SetActive(false);
         }
 
-        // Player visual swap
+        // Change the player's material or color.
         if (playerRenderer != null)
         {
             if (useColorSwapInstead)
@@ -135,95 +140,37 @@ public class StoreEvent2 : MonoBehaviour
             }
         }
 
-        // Spawn man speech
+        // Spawn the man's speech object.
         if (manSpeechPrefab != null)
         {
-            Vector3 speechPos = spawnLocation != null ? spawnLocation.position : transform.position;
-            Quaternion speechRot = spawnLocation != null ? spawnLocation.rotation : Quaternion.identity;
+            Vector3 speechPos = spawnLocation != null
+                ? spawnLocation.position
+                : transform.position;
+
+            Quaternion speechRot = spawnLocation != null
+                ? spawnLocation.rotation
+                : Quaternion.identity;
+
             Instantiate(manSpeechPrefab, speechPos, speechRot);
         }
 
-        // Spawn interaction object
-        SpawnObject();
+        // Spawn both interaction objects.
+        SpawnObject(objectToSpawn, objectSpawnLocation);
+        SpawnObject(secondObjectToSpawn, secondObjectSpawnLocation);
 
-        // Spawn and start walking manager
-        SpawnAndWalkManager();
+        // No sound plays when the player returns the wallet.
 
-        // Audio
-        if (returnSound != null)
-        {
-            AudioSource.PlayClipAtPoint(returnSound, transform.position, soundVolume);
-        }
-
-        // Score
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.ProcessChoice("Returned Wallet", returnScoreChange);
+            GameManager.Instance.ProcessChoice(
+                "Returned Wallet",
+                returnScoreChange
+            );
         }
 
         Debug.Log("[StoreEvent2] Wallet returned.");
+
         DisableEventInteraction();
-    }
-
-    private void SpawnObject()
-    {
-        if (objectToSpawn == null) return;
-
-        Vector3 spawnPos = objectSpawnLocation != null ? objectSpawnLocation.position : transform.position;
-        Quaternion spawnRot = objectSpawnLocation != null ? objectSpawnLocation.rotation : Quaternion.identity;
-
-        Instantiate(objectToSpawn, spawnPos, spawnRot);
-    }
-
-    private void SpawnAndWalkManager()
-    {
-        if (managerPrefab == null) return;
-
-        Vector3 spawnPos = managerSpawnLocation != null ? managerSpawnLocation.position : transform.position;
-        Quaternion spawnRot = managerSpawnLocation != null ? managerSpawnLocation.rotation : Quaternion.identity;
-
-        GameObject spawnedManager = Instantiate(managerPrefab, spawnPos, spawnRot);
-
-        if (managerTargetPosition != null)
-        {
-            StartCoroutine(WalkManagerRoutine(spawnedManager, managerTargetPosition));
-        }
-    }
-
-    private IEnumerator WalkManagerRoutine(GameObject manager, Transform target)
-    {
-        // Make sure we ignore any physics and move purely via transform
-        while (manager != null && target != null)
-        {
-            float distance = Vector3.Distance(manager.transform.position, target.position);
-
-            if (distance <= 0.1f) break;
-
-            manager.transform.position = Vector3.MoveTowards(
-                manager.transform.position,
-                target.position,
-                managerWalkSpeed * Time.deltaTime
-            );
-
-            yield return null;
-        }
-
-        if (manager != null && target != null)
-        {
-            manager.transform.position = target.position;
-            SpawnArrivalObject();
-            Debug.Log("[StoreEvent2] Manager reached destination and spawned arrival object.");
-        }
-    }
-
-    private void SpawnArrivalObject()
-    {
-        if (objectToSpawnOnArrival == null) return;
-
-        Vector3 spawnPos = arrivalSpawnLocation != null ? arrivalSpawnLocation.position : managerTargetPosition.position;
-        Quaternion spawnRot = arrivalSpawnLocation != null ? arrivalSpawnLocation.rotation : Quaternion.identity;
-
-        Instantiate(objectToSpawnOnArrival, spawnPos, spawnRot);
     }
 
     private void OnTimerExpired()
@@ -232,8 +179,33 @@ public class StoreEvent2 : MonoBehaviour
         playerMadeChoice = true;
 
         CloseUI();
+
+        // Play sound only when the timer expires.
+        if (returnSound != null)
+        {
+            AudioSource.PlayClipAtPoint(
+                returnSound,
+                transform.position,
+                soundVolume
+            );
+        }
+
+        // Destroy the designated object.
         DestroyEndObject();
-        SpawnTimeoutObject();
+
+        // Spawn the first timeout object.
+        SpawnObject(
+            objectToSpawnOnTimeout,
+            timeoutSpawnLocation
+        );
+
+        // Spawn the second timeout object.
+        SpawnObject(
+            secondObjectToSpawnOnTimeout,
+            secondTimeoutSpawnLocation
+        );
+
+        // Leave the wallet on the ground.
 
         if (MusicManager.Instance != null)
         {
@@ -247,21 +219,33 @@ public class StoreEvent2 : MonoBehaviour
 
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.ProcessChoice("Ignored Wallet", keepScoreChange);
+            GameManager.Instance.ProcessChoice(
+                "Ignored Wallet",
+                keepScoreChange
+            );
         }
 
-        Debug.Log("[StoreEvent2] Time expired.");
+        Debug.Log("[StoreEvent2] Timer expired. Timeout objects spawned.");
+
         DisableEventInteraction();
     }
 
-    private void SpawnTimeoutObject()
+    private void SpawnObject(GameObject prefab, Transform location)
     {
-        if (objectToSpawnOnTimeout == null) return;
+        if (prefab == null)
+            return;
 
-        Vector3 timeoutPos = timeoutSpawnLocation != null ? timeoutSpawnLocation.position : transform.position;
-        Quaternion timeoutRot = timeoutSpawnLocation != null ? timeoutSpawnLocation.rotation : Quaternion.identity;
+        Vector3 spawnPos = location != null
+            ? location.position
+            : transform.position;
 
-        Instantiate(objectToSpawnOnTimeout, timeoutPos, timeoutRot);
+        Quaternion spawnRot = location != null
+            ? location.rotation
+            : Quaternion.identity;
+
+        Instantiate(prefab, spawnPos, spawnRot);
+
+        Debug.Log("[StoreEvent2] Spawned object: " + prefab.name);
     }
 
     private void DestroyEndObject()
@@ -269,16 +253,21 @@ public class StoreEvent2 : MonoBehaviour
         if (objectToDestroyOnEnd != null)
         {
             Destroy(objectToDestroyOnEnd);
+            objectToDestroyOnEnd = null;
+
+            Debug.Log("[StoreEvent2] End object destroyed!");
         }
     }
 
     private void DisableEventInteraction()
     {
         Collider col = GetComponent<Collider>();
+
         if (col != null)
         {
             col.enabled = false;
         }
+
         enabled = false;
     }
 
