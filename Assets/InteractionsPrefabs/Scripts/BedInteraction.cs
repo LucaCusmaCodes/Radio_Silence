@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,14 +6,16 @@ using UnityEngine;
 public class BedInteraction : MonoBehaviour
 {
     [Header("Audio Settings")]
-    public AudioClip interactionSound; // Drag your bed creak/rustle sound here
-    [Range(0f, 1f)] public float soundVolume = 1.0f;
+    public AudioClip interactionSound;
+    [Range(0f, 1f)]
+    public float soundVolume = 1.0f;
 
     [Header("Fader Reference")]
     public Fader screenFader;
 
     [Header("Teleportation")]
     public Transform teleportTarget;
+
     private GameObject playerRef;
 
     [Header("Settings")]
@@ -24,7 +27,9 @@ public class BedInteraction : MonoBehaviour
 
     private void Update()
     {
-        if (playerInRange && !hasSlept && Input.GetKeyDown(KeyCode.E))
+        if (playerInRange &&
+            !hasSlept &&
+            Input.GetKeyDown(KeyCode.E))
         {
             StartCoroutine(SleepAndTeleportRoutine());
         }
@@ -34,76 +39,156 @@ public class BedInteraction : MonoBehaviour
     {
         hasSlept = true;
 
-        // Play the interaction sound immediately when interacting
+        // Play the bed interaction sound independently
+        // so it can continue during the fade and teleport.
         if (interactionSound != null)
         {
-            AudioSource.PlayClipAtPoint(interactionSound, transform.position, soundVolume);
+            GameObject soundObject =
+                new GameObject("BedInteractionSound");
+
+            soundObject.transform.position = transform.position;
+
+            AudioSource source =
+                soundObject.AddComponent<AudioSource>();
+
+            source.clip = interactionSound;
+            source.volume = soundVolume;
+            source.spatialBlend = 0f;
+            source.playOnAwake = false;
+            source.loop = false;
+
+            source.Play();
+
+            // Destroy the temporary object after playback finishes.
+            Destroy(soundObject, interactionSound.length + 0.5f);
+        }
+        else
+        {
+            Debug.LogWarning(
+                "[BedInteraction] No interaction sound assigned!"
+            );
         }
 
-        // 1. Get all mess objects in the scene
-        CleanableMess[] foundMesses = Object.FindObjectsByType<CleanableMess>(FindObjectsSortMode.None);
+        // Find all remaining mess objects in the scene.
+        CleanableMess[] foundMesses =
+            Object.FindObjectsByType<CleanableMess>(
+                FindObjectsSortMode.None
+            );
 
-        List<CleanableMess> activeMesses = new List<CleanableMess>();
+        List<CleanableMess> activeMesses =
+            new List<CleanableMess>();
+
         if (foundMesses != null)
         {
             foreach (CleanableMess mess in foundMesses)
             {
-                if (mess != null && mess.gameObject.activeInHierarchy)
+                if (mess != null &&
+                    mess.gameObject.activeInHierarchy)
                 {
                     activeMesses.Add(mess);
                 }
             }
         }
 
-        // ---> DEBUG LOG: Print out every remaining mess found! <---
-        Debug.Log($"[Bed Check] Total active messes found by script: {activeMesses.Count}");
-        foreach (var m in activeMesses)
+        Debug.Log(
+            $"[Bed Check] Active messes found: {activeMesses.Count}"
+        );
+
+        foreach (CleanableMess mess in activeMesses)
         {
-            Debug.Log($"-> Still active mess object name: {m.gameObject.name}");
+            Debug.Log(
+                "Still active mess: " + mess.gameObject.name
+            );
         }
 
-        // 2. Evaluate remaining messes
+        // Evaluate remaining messes.
         if (activeMesses.Count > 0)
         {
             if (GameManager.Instance != null)
             {
-                GameManager.Instance.ProcessChoice("You ignored the mess and went straight to sleep.", selfishPointsForMess);
-                Debug.Log($"[Sleep Event] Point given. Remaining messes: {activeMesses.Count}");
+                GameManager.Instance.ProcessChoice(
+                    "You ignored the mess and went straight to sleep.",
+                    selfishPointsForMess
+                );
+            }
+
+            Debug.Log(
+                $"[Sleep Event] Awarded {selfishPointsForMess} point(s)."
+            );
+
+            // Apply atmosphere penalties when points are awarded.
+            if (selfishPointsForMess > 0)
+            {
+                if (MusicManager.Instance != null)
+                {
+                    MusicManager.Instance.ApplyPitchDropStep();
+                }
+
+                if (VignetteController.Instance != null)
+                {
+                    VignetteController.Instance.IncreaseDarkness();
+                }
+
+                Debug.Log(
+                    "[Sleep Event] Music pitch dropped and vignette darkness increased."
+                );
             }
         }
         else
         {
             if (GameManager.Instance != null)
             {
-                GameManager.Instance.ProcessChoice("You cleaned up the entire house before sleeping.", 0);
-                Debug.Log("[Sleep Event] House fully cleaned. 0 points.");
+                GameManager.Instance.ProcessChoice(
+                    "You cleaned up the entire house before sleeping.",
+                    0
+                );
             }
+
+            Debug.Log(
+                "[Sleep Event] House fully cleaned. No points awarded."
+            );
         }
 
-        // 3. Fade screen to black
+        // Fade the screen to black.
         if (screenFader != null)
         {
-            yield return StartCoroutine(screenFader.FadeRoutine(1f, fadeDuration));
+            yield return StartCoroutine(
+                screenFader.FadeRoutine(1f, fadeDuration)
+            );
         }
         else
         {
             yield return new WaitForSeconds(fadeDuration);
         }
 
-        // 4. Teleport Player safely
+        // Teleport the player safely.
         if (playerRef != null && teleportTarget != null)
         {
-            CharacterController cc = playerRef.GetComponent<CharacterController>();
-            if (cc != null) cc.enabled = false;
+            CharacterController cc =
+                playerRef.GetComponent<CharacterController>();
 
-            playerRef.transform.position = teleportTarget.position;
-            playerRef.transform.rotation = teleportTarget.rotation;
+            if (cc != null)
+            {
+                cc.enabled = false;
+            }
 
-            if (cc != null) cc.enabled = true;
+            playerRef.transform.position =
+                teleportTarget.position;
+
+            playerRef.transform.rotation =
+                teleportTarget.rotation;
+
+            if (cc != null)
+            {
+                cc.enabled = true;
+            }
         }
 
-        // 5. Trigger the WakeUpController sequence smoothly
-        WakeUpController wakeUp = screenFader != null ? screenFader.GetComponent<WakeUpController>() : null;
+        // Start the wake-up sequence.
+        WakeUpController wakeUp = screenFader != null
+            ? screenFader.GetComponent<WakeUpController>()
+            : null;
+
         if (wakeUp != null)
         {
             wakeUp.StopAllCoroutines();
@@ -111,7 +196,9 @@ public class BedInteraction : MonoBehaviour
         }
         else if (screenFader != null)
         {
-            yield return StartCoroutine(screenFader.FadeRoutine(0f, fadeDuration));
+            yield return StartCoroutine(
+                screenFader.FadeRoutine(0f, fadeDuration)
+            );
         }
     }
 

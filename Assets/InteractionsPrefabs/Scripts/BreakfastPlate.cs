@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 public class BreakfastPlate : MonoBehaviour
@@ -7,18 +8,18 @@ public class BreakfastPlate : MonoBehaviour
     public AudioClip interactionSound;
 
     [Header("Visual Feedback")]
-    public GameObject foodVisual; // Drag the food mesh/child object here!
+    public GameObject foodVisual;
 
     private bool playerInRange = false;
     private bool hasBeenUsed = false;
+    private bool interactionDisabled = false;
 
     private void OnEnable()
     {
-        // Reset plate state on scene reload
         hasBeenUsed = false;
         playerInRange = false;
+        interactionDisabled = false;
 
-        // Hide food when entering/reloading the scene
         if (foodVisual != null)
         {
             foodVisual.SetActive(false);
@@ -27,7 +28,10 @@ public class BreakfastPlate : MonoBehaviour
 
     private void Update()
     {
-        if (playerInRange && !hasBeenUsed && Input.GetKeyDown(KeyCode.E))
+        if (interactionDisabled || hasBeenUsed)
+            return;
+
+        if (playerInRange && Input.GetKeyDown(KeyCode.E))
         {
             Interact();
         }
@@ -35,25 +39,38 @@ public class BreakfastPlate : MonoBehaviour
 
     private void Interact()
     {
+        if (interactionDisabled || hasBeenUsed)
+            return;
+
         hasBeenUsed = true;
 
-        // Show the cooked food visual on the plate
         if (foodVisual != null)
         {
             foodVisual.SetActive(true);
         }
 
-        // Play sizzle/cooking sound
         if (interactionSound != null)
         {
-            AudioSource.PlayClipAtPoint(interactionSound, transform.position);
+            AudioSource.PlayClipAtPoint(
+                interactionSound,
+                transform.position
+            );
         }
 
-        // Notify manager of interaction
         if (KitchenBreakfastManager.Instance != null)
         {
             KitchenBreakfastManager.Instance.OnPlateInteracted(plateID);
         }
+    }
+
+    // Called by KitchenBreakfastManager when time expires.
+    public void DisableInteraction()
+    {
+        interactionDisabled = true;
+        playerInRange = false;
+
+        Debug.Log("[BreakfastPlate] Plate " + plateID +
+                  " interaction disabled.");
     }
 
     private void OnTriggerEnter(Collider other)
