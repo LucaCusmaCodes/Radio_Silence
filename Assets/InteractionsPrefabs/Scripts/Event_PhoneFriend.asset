@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Event_PhoneFriend
   m_EditorClassIdentifier: Assembly-CSharp::ChoiceEvent
   eventPrompt: I've been feeling horrible ever since she left me, idk what to do.
-  timeLimitSeconds: 7
+  timeLimitSeconds: 9
   replyButtonText: Reply
   replyOutcomeText: That doesn't help you jerk.
   replyScoreChange: 0

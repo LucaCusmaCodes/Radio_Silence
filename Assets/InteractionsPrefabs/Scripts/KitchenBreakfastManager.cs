@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,18 +11,20 @@ public class KitchenBreakfastManager : MonoBehaviour
     public float decisionTimeLimit = 7.0f;
 
     [Header("UI Spawn Settings")]
-    public GameObject dialogueCanvasPrefab; // Drag your Dialogue Canvas Prefab here
-    public Transform uiSpawnPoint;          // Drag your uiSpawnPoint GameObject here
+    public GameObject dialogueCanvasPrefab;
+    public Transform uiSpawnPoint;
 
-    [Header("State")]
+    [Header("Breakfast Plates")]
+    public BreakfastPlate plate1;
+    public BreakfastPlate plate2;
+
     private bool isCookingActive = false;
-    private int firstPlateID = 0;           // Tracks which plate was clicked first (1 or 2)
+    private int firstPlateID = 0;
     private int platesMade = 0;
     private float currentTimer;
 
     private void Awake()
     {
-        // Enforce singular Instance for this scene load
         Instance = this;
         ResetState();
     }
@@ -47,13 +50,15 @@ public class KitchenBreakfastManager : MonoBehaviour
 
     private void Update()
     {
-        if (!isCookingActive) return;
+        if (!isCookingActive)
+            return;
 
         currentTimer -= Time.deltaTime;
 
-        if (timerFillBar != null && decisionTimeLimit > 0)
+        if (timerFillBar != null && decisionTimeLimit > 0f)
         {
-            timerFillBar.fillAmount = Mathf.Clamp01(currentTimer / decisionTimeLimit);
+            timerFillBar.fillAmount =
+                Mathf.Clamp01(currentTimer / decisionTimeLimit);
         }
 
         if (currentTimer <= 0f)
@@ -64,12 +69,14 @@ public class KitchenBreakfastManager : MonoBehaviour
 
     public void OnPlateInteracted(int plateID)
     {
-        // If the event is already finished, ignore further clicks
-        if (platesMade >= 2 || (!isCookingActive && platesMade == 1)) return;
+        if (platesMade >= 2 ||
+            (!isCookingActive && platesMade == 1))
+        {
+            return;
+        }
 
         if (platesMade == 0)
         {
-            // First plate interacted with (works for Plate 1 OR Plate 2!)
             firstPlateID = plateID;
             platesMade = 1;
             isCookingActive = true;
@@ -81,11 +88,15 @@ public class KitchenBreakfastManager : MonoBehaviour
                 timerFillBar.fillAmount = 1f;
             }
 
-            Debug.Log($"[KitchenBreakfastManager] First plate (ID: {plateID}) interacted with. Timer started!");
+            Debug.Log(
+                "[KitchenBreakfastManager] First plate selected: " +
+                plateID + ". Timer started!"
+            );
         }
-        else if (isCookingActive && platesMade == 1 && plateID != firstPlateID)
+        else if (isCookingActive &&
+                 platesMade == 1 &&
+                 plateID != firstPlateID)
         {
-            // Second (different) plate made before timer expires
             platesMade = 2;
             isCookingActive = false;
 
@@ -97,11 +108,17 @@ public class KitchenBreakfastManager : MonoBehaviour
 
             if (GameManager.Instance != null)
             {
-                GameManager.Instance.ProcessChoice("You took the time to make breakfast for both of you.", 0);
-                Debug.Log($"[Breakfast Event Complete] Choice: Moral (2 Plates) | Total Score: {GameManager.Instance.internalScore}");
+                GameManager.Instance.ProcessChoice(
+                    "You took the time to make breakfast for both of you.",
+                    0
+                );
+
+                Debug.Log(
+                    "[Breakfast Event Complete] Moral choice. Total Score: " +
+                    GameManager.Instance.internalScore
+                );
             }
 
-            // Spawn dialogue canvas for successful choice
             SpawnDialogueCanvas();
         }
     }
@@ -109,7 +126,19 @@ public class KitchenBreakfastManager : MonoBehaviour
     private void OnTimerExpired()
     {
         isCookingActive = false;
-        platesMade = 2; // Prevent further interactions after expiration
+
+        // Prevent any additional plate interactions.
+        platesMade = 2;
+
+        // Disable only the plate that was NOT selected.
+        if (firstPlateID == 1 && plate2 != null)
+        {
+            plate2.DisableInteraction();
+        }
+        else if (firstPlateID == 2 && plate1 != null)
+        {
+            plate1.DisableInteraction();
+        }
 
         if (timerFillBar != null)
         {
@@ -117,7 +146,6 @@ public class KitchenBreakfastManager : MonoBehaviour
             timerFillBar.gameObject.SetActive(false);
         }
 
-        // Apply permanent darkness & pitch shift
         if (MusicManager.Instance != null)
         {
             MusicManager.Instance.ApplyPitchDropStep();
@@ -130,11 +158,17 @@ public class KitchenBreakfastManager : MonoBehaviour
 
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.ProcessChoice("You only made breakfast for yourself.", 1);
-            Debug.Log($"[Breakfast Event Complete] Choice: Selfish (1 Plate) | Total Score: {GameManager.Instance.internalScore}");
+            GameManager.Instance.ProcessChoice(
+                "You only made breakfast for yourself.",
+                1
+            );
+
+            Debug.Log(
+                "[Breakfast Event Complete] Selfish choice. Total Score: " +
+                GameManager.Instance.internalScore
+            );
         }
 
-        // Spawn dialogue canvas when timer runs out (selfish path)
         SpawnDialogueCanvas();
     }
 
@@ -142,18 +176,31 @@ public class KitchenBreakfastManager : MonoBehaviour
     {
         if (dialogueCanvasPrefab != null && uiSpawnPoint != null)
         {
-            GameObject spawnedCanvas = Instantiate(dialogueCanvasPrefab, uiSpawnPoint.position, uiSpawnPoint.rotation);
+            GameObject spawnedCanvas = Instantiate(
+                dialogueCanvasPrefab,
+                uiSpawnPoint.position,
+                uiSpawnPoint.rotation
+            );
+
             spawnedCanvas.transform.SetParent(uiSpawnPoint, false);
-            Debug.Log("[KitchenBreakfastManager] Dialogue canvas spawned successfully at uiSpawnPoint.");
+
+            Debug.Log(
+                "[KitchenBreakfastManager] Dialogue canvas spawned."
+            );
         }
         else
         {
-            Debug.LogWarning("⚠️ Dialogue Canvas Prefab or UI Spawn Point is unassigned in KitchenBreakfastManager!");
+            Debug.LogWarning(
+                "Dialogue Canvas Prefab or UI Spawn Point is unassigned!"
+            );
         }
     }
 
     private void OnDestroy()
     {
-        if (Instance == this) Instance = null;
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 }
