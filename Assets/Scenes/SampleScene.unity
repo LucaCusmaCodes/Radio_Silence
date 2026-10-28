@@ -22001,8 +22001,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StoreEvent2
   timerFillBar: {fileID: 815266468}
   walletVisualModel: {fileID: 2145251255}
+  walletHighlight: {fileID: 0}
   timeLimitSeconds: 11
   returnKey: 101
+  restrictByScore: 1
+  maxScoreToInteract: 6
   manSpeechPrefab: {fileID: 7377423927779779878, guid: 794b27b2ddc3a57478a4d161876802de, type: 3}
   spawnLocation: {fileID: 528353106}
   objectToSpawn: {fileID: 2130128342}

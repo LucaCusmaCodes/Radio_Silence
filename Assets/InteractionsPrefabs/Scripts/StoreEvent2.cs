@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,10 +8,15 @@ public class StoreEvent2 : MonoBehaviour
 
     [Header("World References")]
     public GameObject walletVisualModel;
+    public InteractableHighlight walletHighlight; // Drag the wallet's InteractableHighlight component here
 
     [Header("Event Settings")]
     public float timeLimitSeconds = 5.0f;
     public KeyCode returnKey = KeyCode.E;
+
+    [Header("Score Restriction (Force Timeout)")]
+    public bool restrictByScore = true;           // Enable score check
+    public int maxScoreToInteract = 3;            // If internalScore >= this, player can't press E (timer forces timeout)
 
     [Header("Man Speech Object")]
     public GameObject manSpeechPrefab;
@@ -32,7 +36,7 @@ public class StoreEvent2 : MonoBehaviour
     public GameObject objectToSpawnOnTimeout;
     public Transform timeoutSpawnLocation;
 
-    // NEW: Second object spawned when timer expires.
+    // Second object spawned when timer expires.
     public GameObject secondObjectToSpawnOnTimeout;
     public Transform secondTimeoutSpawnLocation;
 
@@ -55,6 +59,7 @@ public class StoreEvent2 : MonoBehaviour
     private float timer;
     private bool isEventActive = false;
     private bool playerMadeChoice = false;
+    private bool blockPlayerInteraction = false; // Tracks if pressing E is blocked
 
     private void Awake()
     {
@@ -70,8 +75,28 @@ public class StoreEvent2 : MonoBehaviour
             !playerMadeChoice &&
             !isEventActive)
         {
+            // Check if player's internal score blocks the "E" key choice
+            blockPlayerInteraction = IsPlayerScoreTooHigh();
+
+            if (blockPlayerInteraction)
+            {
+                Debug.Log("[StoreEvent2] Player score reached threshold. E key interaction blocked; forcing timer to run out.");
+            }
+
             StartEvent();
         }
+    }
+
+    private bool IsPlayerScoreTooHigh()
+    {
+        if (!restrictByScore) return false;
+
+        if (GameManager.Instance != null)
+        {
+            return GameManager.Instance.internalScore >= maxScoreToInteract;
+        }
+
+        return false;
     }
 
     public void StartEvent()
@@ -101,7 +126,8 @@ public class StoreEvent2 : MonoBehaviour
                 Mathf.Clamp01(timer / timeLimitSeconds);
         }
 
-        if (Input.GetKeyDown(returnKey))
+        // Only allow pressing E if interaction is NOT blocked by score
+        if (!blockPlayerInteraction && Input.GetKeyDown(returnKey))
         {
             OnWalletReturned();
         }
@@ -158,8 +184,6 @@ public class StoreEvent2 : MonoBehaviour
         SpawnObject(objectToSpawn, objectSpawnLocation);
         SpawnObject(secondObjectToSpawn, secondObjectSpawnLocation);
 
-        // No sound plays when the player returns the wallet.
-
         if (GameManager.Instance != null)
         {
             GameManager.Instance.ProcessChoice(
@@ -204,8 +228,6 @@ public class StoreEvent2 : MonoBehaviour
             secondObjectToSpawnOnTimeout,
             secondTimeoutSpawnLocation
         );
-
-        // Leave the wallet on the ground.
 
         if (MusicManager.Instance != null)
         {
@@ -261,11 +283,17 @@ public class StoreEvent2 : MonoBehaviour
 
     private void DisableEventInteraction()
     {
+        // Disable trigger collider so it can't re-trigger
         Collider col = GetComponent<Collider>();
-
         if (col != null)
         {
             col.enabled = false;
+        }
+
+        // Turn off the highlight script permanently when the event concludes
+        if (walletHighlight != null)
+        {
+            walletHighlight.enabled = false;
         }
 
         enabled = false;
