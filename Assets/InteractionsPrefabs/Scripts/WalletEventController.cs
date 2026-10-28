@@ -8,6 +8,7 @@ public class WalletEventController : MonoBehaviour
 
     [Header("World References")]
     public GameObject walletVisualModel;      // The physical wallet mesh on the ground
+    public InteractableHighlight walletHighlight; // Drag the wallet's InteractableHighlight component here
 
     [Header("Event Settings")]
     public float timeLimitSeconds = 5.0f;      // Total countdown time to decide
@@ -184,6 +185,12 @@ public class WalletEventController : MonoBehaviour
         if (col != null)
         {
             col.enabled = false;
+        }
+
+        // Turn off the highlight script permanently when the event concludes
+        if (walletHighlight != null)
+        {
+            walletHighlight.enabled = false;
         }
 
         // Disable script execution without destroying the wallet GameObject

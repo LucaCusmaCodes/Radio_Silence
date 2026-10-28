@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 public class BreakfastPlate : MonoBehaviour
@@ -9,6 +8,7 @@ public class BreakfastPlate : MonoBehaviour
 
     [Header("Visual Feedback")]
     public GameObject foodVisual;
+    public InteractableHighlight interactHighlight; // Drag the object's InteractableHighlight component here
 
     private bool playerInRange = false;
     private bool hasBeenUsed = false;
@@ -23,6 +23,12 @@ public class BreakfastPlate : MonoBehaviour
         if (foodVisual != null)
         {
             foodVisual.SetActive(false);
+        }
+
+        // Re-enable highlight when enabled
+        if (interactHighlight != null)
+        {
+            interactHighlight.enabled = true;
         }
     }
 
@@ -43,6 +49,12 @@ public class BreakfastPlate : MonoBehaviour
             return;
 
         hasBeenUsed = true;
+
+        // Disable highlight component so it turns off and stays off
+        if (interactHighlight != null)
+        {
+            interactHighlight.enabled = false;
+        }
 
         if (foodVisual != null)
         {
@@ -68,6 +80,12 @@ public class BreakfastPlate : MonoBehaviour
     {
         interactionDisabled = true;
         playerInRange = false;
+
+        // Disable highlight component when time runs out
+        if (interactHighlight != null)
+        {
+            interactHighlight.enabled = false;
+        }
 
         Debug.Log("[BreakfastPlate] Plate " + plateID +
                   " interaction disabled.");
