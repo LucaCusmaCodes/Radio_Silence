@@ -69,10 +69,20 @@ public class Menu : MonoBehaviour
             GameManager.Instance.internalScore = 0;
         }
 
-        // 3. Reset pitch back to normal
+        // 3. Reset pitch, volume, and playback state for MusicManager without changing its script
         if (MusicManager.Instance != null)
         {
             MusicManager.Instance.ResetPitch();
+
+            if (MusicManager.Instance.musicAudioSource != null)
+            {
+                MusicManager.Instance.musicAudioSource.volume = 1.0f; // Restores volume if faded out
+
+                if (!MusicManager.Instance.musicAudioSource.isPlaying)
+                {
+                    MusicManager.Instance.musicAudioSource.Play(); // Ensures music starts playing again if stopped
+                }
+            }
         }
 
         // 4. Load the target scene (0 for Main Menu / Restart)

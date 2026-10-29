@@ -17179,7 +17179,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2862278905927072855, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -23.948792
+      value: -23.94879
       objectReference: {fileID: 0}
     - target: {fileID: 4253012990419024484, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -17207,7 +17207,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6556307555316582679, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 164.45
+      value: 46.7
       objectReference: {fileID: 0}
     - target: {fileID: 6556307555316582679, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -18595,7 +18595,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1429535712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19560,15 +19560,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2389889119871546544, guid: dde74db38762fd543b1b3aa399d32819, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.97868
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2389889119871546544, guid: dde74db38762fd543b1b3aa399d32819, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.7748571
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2389889119871546544, guid: dde74db38762fd543b1b3aa399d32819, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.80952144
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2389889119871546544, guid: dde74db38762fd543b1b3aa399d32819, type: 3}
       propertyPath: m_LocalRotation.w
@@ -19598,9 +19598,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3222917243419725473, guid: dde74db38762fd543b1b3aa399d32819, type: 3}
+      propertyPath: ObjetACreer
+      value: 
+      objectReference: {fileID: 4862582888663115376, guid: ec2216c228cb02c41b3aee51b2682b0d, type: 3}
+    - target: {fileID: 3222917243419725473, guid: dde74db38762fd543b1b3aa399d32819, type: 3}
+      propertyPath: EndroitOuSpawner
+      value: 
+      objectReference: {fileID: 725542050}
     - target: {fileID: 3394982477364797920, guid: dde74db38762fd543b1b3aa399d32819, type: 3}
       propertyPath: m_Name
       value: Create Sound 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6119185427684048544, guid: dde74db38762fd543b1b3aa399d32819, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
