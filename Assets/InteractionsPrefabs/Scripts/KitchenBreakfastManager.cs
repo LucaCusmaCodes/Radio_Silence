@@ -18,6 +18,8 @@ public class KitchenBreakfastManager : MonoBehaviour
     public BreakfastPlate plate1;
     public BreakfastPlate plate2;
 
+    public GameObject postItSpawner;
+
     private bool isCookingActive = false;
     private int firstPlateID = 0;
     private int platesMade = 0;
@@ -32,6 +34,7 @@ public class KitchenBreakfastManager : MonoBehaviour
     private void Start()
     {
         ResetState();
+        postItSpawner.SetActive(false);
     }
 
     public void ResetState()
@@ -117,6 +120,8 @@ public class KitchenBreakfastManager : MonoBehaviour
                     "[Breakfast Event Complete] Moral choice. Total Score: " +
                     GameManager.Instance.internalScore
                 );
+
+                postItSpawner.SetActive(true);
             }
 
             SpawnDialogueCanvas();
