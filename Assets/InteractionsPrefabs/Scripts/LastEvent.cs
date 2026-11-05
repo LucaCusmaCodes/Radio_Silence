@@ -103,6 +103,11 @@ public class LastEvent : MonoBehaviour
         {
             Debug.Log("[LastEvent] Score threshold reached. 'Ask for Help' button disabled and grayed out.");
         }
+
+        if(GameManager.Instance.internalScore < 7)
+        {
+            doItYourselfButton.interactable = false;
+        }
     }
 
     private void OnAskForHelpClicked()
