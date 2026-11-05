@@ -11,6 +11,7 @@ public class VignetteController : MonoBehaviour
     [Range(0f, 1f)] public float maxAlpha = 0.85f; // Maximum darkness cap
     public int totalEventsToMax = 5;               // Number of ignored events to reach max darkness
     public float fadeDuration = 1.2f;              // Transition speed when darkening
+    //public GameManager gameManager;
 
     private Image vignetteImage;
     private int currentIgnoredCount = 0;
@@ -53,7 +54,10 @@ public class VignetteController : MonoBehaviour
     /// </summary>
     public void IncreaseDarkness()
     {
+        Debug.Log("ININcreeses");
+        //currentIgnoredCount = gameManager.internalScore;
         currentIgnoredCount++;
+        Debug.Log(currentIgnoredCount + " testing");
 
         // Calculate target alpha based on how many events have been ignored
         float targetAlpha = Mathf.Clamp01((float)currentIgnoredCount / totalEventsToMax) * maxAlpha;

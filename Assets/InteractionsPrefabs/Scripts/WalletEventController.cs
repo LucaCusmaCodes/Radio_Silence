@@ -158,6 +158,7 @@ public class WalletEventController : MonoBehaviour
 
     private void OnTimerExpired()
     {
+        Debug.Log("timer expired");
         isEventActive = false;
         playerMadeChoice = true;
 
