@@ -4,9 +4,14 @@ public class CleanableMess : MonoBehaviour
 {
     [Header("Audio")]
     public AudioClip cleanSound; // Optional: Sound effect when picked up/cleaned
+    public GameObject postIt2;
 
     private bool playerInRange = false;
 
+    private void Start()
+    {
+        postIt2.SetActive(false);
+    }
     private void Update()
     {
         // If the player is close and presses [E], clean up the mess
@@ -29,6 +34,7 @@ public class CleanableMess : MonoBehaviour
 
         // 2. Destroy the mess object from the scene
         Destroy(gameObject);
+        postIt2.SetActive(true);
     }
 
     private void OnTriggerEnter(Collider other)

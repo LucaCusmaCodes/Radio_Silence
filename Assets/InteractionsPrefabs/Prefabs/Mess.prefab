@@ -394,6 +394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CleanableMess
   cleanSound: {fileID: 8300000, guid: 093de8511a6491749844be44d16aac43, type: 3}
+  postIt2: {fileID: 5405141396248365230, guid: f6babe33ebad2412ab12b807438846e2, type: 3}
 --- !u!114 &6974086086796310445
 MonoBehaviour:
   m_ObjectHideFlags: 0
