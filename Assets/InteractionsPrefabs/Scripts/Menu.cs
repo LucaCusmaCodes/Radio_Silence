@@ -76,7 +76,7 @@ public class Menu : MonoBehaviour
 
             if (MusicManager.Instance.musicAudioSource != null)
             {
-                MusicManager.Instance.musicAudioSource.volume = 1.0f; // Restores volume if faded out
+                MusicManager.Instance.musicAudioSource.volume = 0.035f; // Restores volume if faded out
 
                 if (!MusicManager.Instance.musicAudioSource.isPlaying)
                 {
