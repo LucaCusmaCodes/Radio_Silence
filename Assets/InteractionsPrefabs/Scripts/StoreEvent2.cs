@@ -5,6 +5,8 @@ public class StoreEvent2 : MonoBehaviour
 {
     [Header("UI Component")]
     public Image timerFillBar;
+    [Header("Manager Movement")]
+    public MovingObject managerMovement;
 
     [Header("World References")]
     public GameObject walletVisualModel;
@@ -192,7 +194,13 @@ public class StoreEvent2 : MonoBehaviour
             );
         }
 
-        Debug.Log("[StoreEvent2] Wallet returned.");
+        // Start the manager walking when the player presses E.
+        if (managerMovement != null)
+        {
+            managerMovement.StartMovement();
+        }
+
+ 
 
         DisableEventInteraction();
     }
@@ -242,10 +250,13 @@ public class StoreEvent2 : MonoBehaviour
         if (GameManager.Instance != null)
         {
             GameManager.Instance.ProcessChoice(
-                "Ignored Wallet",
-                keepScoreChange
+                "Returned Wallet",
+                returnScoreChange
             );
         }
+
+        
+        Debug.Log("[StoreEvent2] Wallet returned.");
 
         Debug.Log("[StoreEvent2] Timer expired. Timeout objects spawned.");
 

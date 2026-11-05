@@ -1,10 +1,20 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+
 
 public class WalletEventController : MonoBehaviour
 {
     [Header("UI Component")]
     public Image timerFillBar;                // Drag your timer bar Image here directly
+
+    [Header("Character Animation")]
+    public Animator backgroundAnimator;
+
+    [Header("Character Movement")]
+    public Transform characterRoot;
+    public Transform pointB;
+    public float walkSpeed = 1.5f;
 
     [Header("World References")]
     public GameObject walletVisualModel;      // The physical wallet mesh on the ground
@@ -98,14 +108,12 @@ public class WalletEventController : MonoBehaviour
     {
         isEventActive = false;
         playerMadeChoice = true;
+        MakeCharacterWalk();
+        // Turn the background character 90 degrees
+
 
         CloseUI();
 
-        // Hide wallet mesh on return
-        if (walletVisualModel != null)
-        {
-            walletVisualModel.SetActive(false);
-        }
 
         // --- PLAYER MATERIAL/COLOR SWAP ---
         if (playerRenderer != null)
@@ -204,5 +212,60 @@ public class WalletEventController : MonoBehaviour
             timerFillBar.fillAmount = 0f;
             timerFillBar.gameObject.SetActive(false);
         }
+    }
+    private void MakeCharacterWalk()
+    {
+        if (backgroundAnimator != null && characterRoot != null && pointB != null)
+        {
+            StartCoroutine(WalkToPointB());
+        }
+        else
+        {
+            Debug.LogError("Missing Animator, Character Root, or Point B!");
+        }
+    }
+
+    private IEnumerator WalkToPointB()
+    {
+        backgroundAnimator.Play("HumanM@Walk01_Forward", 0, 0f);
+
+        // Calculate the direction toward Point B once
+        Vector3 direction = pointB.position - characterRoot.position;
+        direction.y = 0f;
+
+        if (direction.sqrMagnitude > 0.001f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+            // Rotate until the character faces Point B
+            while (Quaternion.Angle(characterRoot.rotation, targetRotation) > 1f)
+            {
+                characterRoot.rotation = Quaternion.RotateTowards(
+                    characterRoot.rotation,
+                    targetRotation,
+                    180f * Time.deltaTime
+                );
+
+                yield return null;
+            }
+
+            // Ensure exact final rotation
+            characterRoot.rotation = targetRotation;
+        }
+
+        // Walk toward Point B
+        while (Vector3.Distance(characterRoot.position, pointB.position) > 0.05f)
+        {
+            characterRoot.position = Vector3.MoveTowards(
+                characterRoot.position,
+                pointB.position,
+                walkSpeed * Time.deltaTime
+            );
+
+            yield return null;
+        }
+
+        // Stop walking
+        backgroundAnimator.Play("HumanM@Idle01", 0, 0f);
     }
 }

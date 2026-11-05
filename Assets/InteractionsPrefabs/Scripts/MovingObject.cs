@@ -16,13 +16,11 @@ public class MovingObject : MonoBehaviour
 
     private void Awake()
     {
-        // Get an AudioSource if one is not assigned.
         if (audioSource == null)
         {
             audioSource = GetComponent<AudioSource>();
         }
 
-        // Assign the movement sound.
         if (audioSource != null && movementSound != null)
         {
             audioSource.clip = movementSound;
@@ -31,11 +29,14 @@ public class MovingObject : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    // Called by StoreEvent2 when the player presses E.
+    public void StartMovement()
     {
+        if (ObjectToMove == null || TargetPosition == null)
+            return;
+
         isMoving = true;
 
-        // Start playing the sound while moving.
         if (audioSource != null &&
             movementSound != null &&
             !audioSource.isPlaying)
@@ -60,7 +61,6 @@ public class MovingObject : MonoBehaviour
                 Time.deltaTime * SpeedMultiplier
             );
 
-            // Check whether the target has been reached.
             if (Vector3.Distance(
                 ObjectToMove.transform.position,
                 TargetPosition.transform.position
