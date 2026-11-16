@@ -17,6 +17,7 @@ public class WalletEventController : MonoBehaviour
     [Header("Man Speech Object")]
     public GameObject manSpeechPrefab;         // Drag your timed speech Canvas/Object prefab here
     public Transform spawnLocation;            // Optional: Drag a specific spawn point. If empty, spawns at wallet.
+    public Transform spawnParentTransform;     // NEW: Drag the parent object here if you want the spawned speech object parented under it
 
     [Header("Player Visual Swap")]
     public Renderer playerRenderer;            // Drag your Player capsule/mesh Renderer here
@@ -122,13 +123,21 @@ public class WalletEventController : MonoBehaviour
             }
         }
 
-        // Spawn the man's angry speech object / canvas
+        // Spawn the man's angry speech object / canvas and optionally parent it
         if (manSpeechPrefab != null)
         {
             Vector3 spawnPos = (spawnLocation != null) ? spawnLocation.position : transform.position;
             Quaternion spawnRot = (spawnLocation != null) ? spawnLocation.rotation : Quaternion.identity;
 
-            Instantiate(manSpeechPrefab, spawnPos, spawnRot);
+            // Instantiate with parent if provided
+            if (spawnParentTransform != null)
+            {
+                Instantiate(manSpeechPrefab, spawnPos, spawnRot, spawnParentTransform);
+            }
+            else
+            {
+                Instantiate(manSpeechPrefab, spawnPos, spawnRot);
+            }
         }
 
         // Play return clip at world position

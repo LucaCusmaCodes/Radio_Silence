@@ -23,6 +23,7 @@ public class BusSeatChoiceController : MonoBehaviour
     [Header("Person Speech Object")]
     public GameObject personSpeechPrefab;      // Drag your angry speech Canvas/Object prefab here
     public Transform speechSpawnPoint;         // Optional: Specific spawn position. If empty, uses person's position.
+    public Transform spawnParentTransform;     // NEW: Drag the parent object here if you want the spawned speech object parented under it
 
     [Header("Consequences & Scoring")]
     public int giveSeatScoreChange = 0;        // Give seat (Altruistic): 0 points
@@ -156,7 +157,7 @@ public class BusSeatChoiceController : MonoBehaviour
             }
         }
 
-        // 3. Spawn angry speech bubble/object
+        // 3. Spawn angry speech bubble/object and optionally parent it
         if (personSpeechPrefab != null)
         {
             Vector3 spawnPos = (speechSpawnPoint != null)
@@ -167,7 +168,15 @@ public class BusSeatChoiceController : MonoBehaviour
                 ? speechSpawnPoint.rotation
                 : Quaternion.identity;
 
-            Instantiate(personSpeechPrefab, spawnPos, spawnRot);
+            // Instantiate with parent if provided
+            if (spawnParentTransform != null)
+            {
+                Instantiate(personSpeechPrefab, spawnPos, spawnRot, spawnParentTransform);
+            }
+            else
+            {
+                Instantiate(personSpeechPrefab, spawnPos, spawnRot);
+            }
         }
 
         // 4. Play sound
