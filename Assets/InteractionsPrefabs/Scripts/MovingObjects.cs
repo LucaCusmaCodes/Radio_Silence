@@ -80,12 +80,14 @@ public class MovingObjects : MonoBehaviour
             // 4. Move the player with the bus
             if (playerTransform != null)
             {
-                CharacterController cc = playerTransform.GetComponent<CharacterController>();
-                if (cc != null)
+                CharacterController cc =
+                    playerTransform.GetComponent<CharacterController>();
+
+                if (cc != null && cc.enabled && cc.gameObject.activeInHierarchy)
                 {
                     cc.Move(busDelta);
                 }
-                else
+                else if (cc == null)
                 {
                     playerTransform.position += busDelta;
                 }
