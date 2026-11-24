@@ -28534,9 +28534,8 @@ Transform:
   - {fileID: 2014532431}
   - {fileID: 2072060369}
   - {fileID: 374685532}
-  - {fileID: 994362878}
   - {fileID: 177618227}
-  - {fileID: 2110491687}
+  - {fileID: 1526253523}
   - {fileID: 526259246}
   - {fileID: 473129300}
   m_Father: {fileID: 234541711}
@@ -54813,22 +54812,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WalletEventControllerWithNPC
   timerFillBar: {fileID: 208120545}
+  backgroundAnimator: {fileID: 1526253524}
+  characterRoot: {fileID: 1526253523}
+  pointB: {fileID: 994362878}
+  walkSpeed: 2
   walletVisualModel: {fileID: 177618226}
   walletHighlight: {fileID: 177618232}
   timeLimitSeconds: 6
   returnKey: 101
   manSpeechPrefab: {fileID: 4120842024572829052, guid: 8f2db9faee8aeb84ea8f4dc259f3f77b, type: 3}
   spawnLocation: {fileID: 473129300}
-  spawnParentTransform: {fileID: 102344087}
   playerRenderer: {fileID: 823908235}
   angryMaterial: {fileID: 0}
   useColorSwapInstead: 1
   angryColor: {r: 1, g: 0, b: 0, a: 1}
-  npcTransform: {fileID: 2110491687}
-  npcAnimator: {fileID: 1526253524}
-  walkDestination: {fileID: 994362878}
-  walkSpeed: 2
-  turnSpeed: 180
   returnScoreChange: 0
   keepScoreChange: 1
   returnSound: {fileID: 8300000, guid: 70852fafec4eb804dbcf90ea5f69dbc0, type: 3}
@@ -220673,6 +220670,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: d831605fa210be148badc57877d44061, type: 3}
       insertIndex: -1
       addedObject: {fileID: 860772621}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: d831605fa210be148badc57877d44061, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 994362878}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d831605fa210be148badc57877d44061, type: 3}
 --- !u!4 &751833158 stripped
@@ -223381,7 +223381,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 2110491687}
+    m_TransformParent: {fileID: 102344087}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f1e6812b3c0eee24da54bdc4c823ebb8, type: 3}
       propertyPath: m_LocalScale.x
@@ -295147,12 +295147,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 994362877}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.99, y: 2.88, z: -0.45}
-  m_LocalScale: {x: 0.5871794, y: 0.69685936, z: 0.5389746}
+  m_LocalRotation: {x: -0, y: 0.7114821, z: 0, w: 0.70270425}
+  m_LocalPosition: {x: -2.3603294, y: 12.964799, z: -26.937744}
+  m_LocalScale: {x: -2.6432858, y: 3.1370282, z: 2.4262836}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 102344087}
+  m_Father: {fileID: 751833158}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &994362879
 BoxCollider:
@@ -619927,38 +619927,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2110204565}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &2110491686
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2110491687}
-  m_Layer: 0
-  m_Name: NPC
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2110491687
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2110491686}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1526253523}
-  m_Father: {fileID: 102344087}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2110587396
 GameObject:
   m_ObjectHideFlags: 0

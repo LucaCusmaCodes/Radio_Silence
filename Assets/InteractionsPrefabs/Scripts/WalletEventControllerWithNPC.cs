@@ -1,45 +1,45 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
+
 public class WalletEventControllerWithNPC : MonoBehaviour
 {
     [Header("UI Component")]
-    public Image timerFillBar;
+    public Image timerFillBar;                // Drag your timer bar Image here directly
+
+    [Header("Character Animation")]
+    public Animator backgroundAnimator;
+
+    [Header("Character Movement")]
+    public Transform characterRoot;
+    public Transform pointB;
+    public float walkSpeed = 1.5f;
 
     [Header("World References")]
-    public GameObject walletVisualModel;
-    public InteractableHighlight walletHighlight;
+    public GameObject walletVisualModel;      // The physical wallet mesh on the ground
+    public InteractableHighlight walletHighlight; // Drag the wallet's InteractableHighlight component here
 
     [Header("Event Settings")]
-    public float timeLimitSeconds = 5.0f;
-    public KeyCode returnKey = KeyCode.E;
+    public float timeLimitSeconds = 5.0f;      // Total countdown time to decide
+    public KeyCode returnKey = KeyCode.E;       // Key to give the wallet back
 
     [Header("Man Speech Object")]
-    public GameObject manSpeechPrefab;
-    public Transform spawnLocation;
-    public Transform spawnParentTransform;
+    public GameObject manSpeechPrefab;         // Drag your timed speech Canvas/Object prefab here
+    public Transform spawnLocation;            // Optional: Drag a specific spawn point. If empty, spawns at wallet.
 
     [Header("Player Visual Swap")]
-    public Renderer playerRenderer;
-    public Material angryMaterial;
-    public bool useColorSwapInstead = false;
-    public Color angryColor = Color.red;
-
-    [Header("NPC Walking")]
-    public Transform npcTransform;
-    public Animator npcAnimator;
-    public Transform walkDestination;
-    public float walkSpeed = 2f;
-    public float turnSpeed = 180f;
+    public Renderer playerRenderer;            // Drag your Player capsule/mesh Renderer here
+    public Material angryMaterial;             // (Option A) Drag an angry material here to swap materials
+    public bool useColorSwapInstead = false;  // Check this box if you'd rather change the material color
+    public Color angryColor = Color.red;       // (Option B) Color used if useColorSwapInstead is checked
 
     [Header("Consequences")]
-    public int returnScoreChange = 0;
-    public int keepScoreChange = 1;
+    public int returnScoreChange = 0;           // Altruistic choice: 0 points
+    public int keepScoreChange = 1;             // Selfish choice: +1 point
 
     [Header("Audio")]
-    public AudioClip returnSound;
+    public AudioClip returnSound;               // Drag your return sound clip here
     [Range(0f, 1f)] public float soundVolume = 1.0f;
 
     private float timer;
@@ -48,6 +48,7 @@ public class WalletEventControllerWithNPC : MonoBehaviour
 
     private void Awake()
     {
+        // Instantly hide the timer bar when the scene loads
         if (timerFillBar != null)
         {
             timerFillBar.gameObject.SetActive(false);
@@ -56,8 +57,8 @@ public class WalletEventControllerWithNPC : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") &&
-            !playerMadeChoice && !isEventActive)
+        // Show timer bar and start countdown only when entering trigger area
+        if (other.CompareTag("Player") && !playerMadeChoice && !isEventActive)
         {
             StartEvent();
         }
@@ -68,6 +69,7 @@ public class WalletEventControllerWithNPC : MonoBehaviour
         isEventActive = true;
         timer = timeLimitSeconds;
 
+        // Turn on the timer bar image and fill it
         if (timerFillBar != null)
         {
             timerFillBar.gameObject.SetActive(true);
@@ -81,18 +83,21 @@ public class WalletEventControllerWithNPC : MonoBehaviour
     {
         if (!isEventActive) return;
 
+        // Tick timer down
         timer -= Time.deltaTime;
 
+        // Update fill bar
         if (timerFillBar != null && timeLimitSeconds > 0)
         {
-            timerFillBar.fillAmount =
-                Mathf.Clamp01(timer / timeLimitSeconds);
+            timerFillBar.fillAmount = Mathf.Clamp01(timer / timeLimitSeconds);
         }
 
+        // Choice 1: Player presses E -> Return wallet
         if (Input.GetKeyDown(returnKey))
         {
             OnWalletReturned();
         }
+        // Choice 2: Timer expires -> Selfish choice
         else if (timer <= 0f)
         {
             OnTimerExpired();
@@ -103,149 +108,65 @@ public class WalletEventControllerWithNPC : MonoBehaviour
     {
         isEventActive = false;
         playerMadeChoice = true;
+        MakeCharacterWalk();
+        // Turn the background character 90 degrees
+
 
         CloseUI();
 
-        // Start NPC walking.
-        if (npcTransform != null && walkDestination != null)
-        {
-            StartCoroutine(NPCWalk());
-        }
-        else
-        {
-            Debug.LogError(
-                "[WalletEvent] NPC Transform or Walk Destination is missing!"
-            );
-        }
 
-        // Hide wallet mesh on return.
-        if (walletVisualModel != null)
-        {
-            walletVisualModel.SetActive(false);
-        }
-
-        // Player material/color swap.
+        // --- PLAYER MATERIAL/COLOR SWAP ---
         if (playerRenderer != null)
         {
             if (useColorSwapInstead)
             {
+                // Option B: Change the existing material's tint color
                 playerRenderer.material.color = angryColor;
             }
             else if (angryMaterial != null)
             {
+                // Option A: Assign a whole new angry Material
                 playerRenderer.material = angryMaterial;
             }
         }
 
-        // Spawn existing angry speech object / canvas.
+        // Spawn the man's angry speech object / canvas
         if (manSpeechPrefab != null)
         {
-            Vector3 spawnPos = (spawnLocation != null)
-                ? spawnLocation.position
-                : transform.position;
+            Vector3 spawnPos = (spawnLocation != null) ? spawnLocation.position : transform.position;
+            Quaternion spawnRot = (spawnLocation != null) ? spawnLocation.rotation : Quaternion.identity;
 
-            Quaternion spawnRot = (spawnLocation != null)
-                ? spawnLocation.rotation
-                : Quaternion.identity;
-
-            if (spawnParentTransform != null)
-            {
-                Instantiate(
-                    manSpeechPrefab,
-                    spawnPos,
-                    spawnRot,
-                    spawnParentTransform
-                );
-            }
-            else
-            {
-                Instantiate(manSpeechPrefab, spawnPos, spawnRot);
-            }
+            Instantiate(manSpeechPrefab, spawnPos, spawnRot);
         }
 
-        // Play return clip.
+        // Play return clip at world position
         if (returnSound != null)
         {
-            AudioSource.PlayClipAtPoint(
-                returnSound,
-                transform.position,
-                soundVolume
-            );
+            AudioSource.PlayClipAtPoint(returnSound, transform.position, soundVolume);
         }
 
-        // Process score.
+        // Process score in GameManager (0 points)
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.ProcessChoice(
-                "Returned Wallet",
-                returnScoreChange
-            );
+            GameManager.Instance.ProcessChoice("Returned Wallet", returnScoreChange);
         }
 
-        Debug.Log("[WalletEvent] Wallet returned. Speech spawned.");
+        Debug.Log("[WalletEvent] Wallet returned. Player material swapped and man's speech spawned.");
 
-        // Disable interaction without disabling this script.
         DisableEventInteraction();
-    }
-
-    private IEnumerator NPCWalk()
-    {
-        // Start walking animation.
-        if (npcAnimator != null)
-        {
-            npcAnimator.SetBool("IsWalking", true);
-        }
-
-        while (Vector3.Distance(
-            npcTransform.position,
-            walkDestination.position) > 0.1f)
-        {
-            Vector3 direction =
-                walkDestination.position - npcTransform.position;
-
-            direction.y = 0f;
-
-            // Rotate NPC toward destination.
-            if (direction.sqrMagnitude > 0.001f)
-            {
-                Quaternion targetRotation =
-                    Quaternion.LookRotation(direction);
-
-                npcTransform.rotation = Quaternion.RotateTowards(
-                    npcTransform.rotation,
-                    targetRotation,
-                    turnSpeed * Time.deltaTime
-                );
-            }
-
-            // Move NPC toward destination.
-            npcTransform.position = Vector3.MoveTowards(
-                npcTransform.position,
-                walkDestination.position,
-                walkSpeed * Time.deltaTime
-            );
-
-            yield return null;
-        }
-
-        // Stop walking animation.
-        if (npcAnimator != null)
-        {
-            npcAnimator.SetBool("IsWalking", false);
-        }
-
-        Debug.Log("[WalletEvent] NPC reached destination!");
     }
 
     private void OnTimerExpired()
     {
+        Debug.Log("timer expired");
         isEventActive = false;
         playerMadeChoice = true;
 
         CloseUI();
 
-        // Wallet stays on the ground.
+        // NOTE: walletVisualModel is kept active so the wallet stays on the ground!
 
+        // Atmospheric penalties
         if (MusicManager.Instance != null)
         {
             MusicManager.Instance.ApplyPitchDropStep();
@@ -258,34 +179,31 @@ public class WalletEventControllerWithNPC : MonoBehaviour
 
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.ProcessChoice(
-                "Ignored Wallet",
-                keepScoreChange
-            );
+            GameManager.Instance.ProcessChoice("Ignored Wallet", keepScoreChange);
         }
 
-        Debug.Log("[WalletEvent] Time expired. Wallet left on ground.");
+        Debug.Log("[WalletEvent] Time expired. Wallet left on ground, atmospheric penalties applied.");
 
         DisableEventInteraction();
     }
 
     private void DisableEventInteraction()
     {
+        // Disable trigger collider so the player cannot re-trigger the event
         Collider col = GetComponent<Collider>();
-
         if (col != null)
         {
             col.enabled = false;
         }
 
+        // Turn off the highlight script permanently when the event concludes
         if (walletHighlight != null)
         {
             walletHighlight.enabled = false;
         }
 
-        // IMPORTANT:
-        // Do not disable this script here.
-        // Disabling it would stop the NPC walking coroutine.
+        // Disable script execution without destroying the wallet GameObject
+        this.enabled = false;
     }
 
     private void CloseUI()
@@ -293,11 +211,62 @@ public class WalletEventControllerWithNPC : MonoBehaviour
         if (timerFillBar != null)
         {
             timerFillBar.fillAmount = 0f;
-
-            Debug.Log("Timer: " + timer +
-                      " | Fill: " + timerFillBar.fillAmount);
-
             timerFillBar.gameObject.SetActive(false);
         }
+    }
+    private void MakeCharacterWalk()
+    {
+        if (backgroundAnimator != null && characterRoot != null && pointB != null)
+        {
+            StartCoroutine(WalkToPointB());
+        }
+        else
+        {
+            Debug.LogError("Missing Animator, Character Root, or Point B!");
+        }
+    }
+
+    private IEnumerator WalkToPointB()
+    {
+        backgroundAnimator.Play("HumanM@Walk01_Forward", 0, 0f);
+
+        // Calculate the direction toward Point B once
+        Vector3 direction = pointB.position - characterRoot.position;
+        direction.y = 0f;
+
+        if (direction.sqrMagnitude > 0.001f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+            // Rotate until the character faces Point B
+            while (Quaternion.Angle(characterRoot.rotation, targetRotation) > 1f)
+            {
+                characterRoot.rotation = Quaternion.RotateTowards(
+                    characterRoot.rotation,
+                    targetRotation,
+                    180f * Time.deltaTime
+                );
+
+                yield return null;
+            }
+
+            // Ensure exact final rotation
+            characterRoot.rotation = targetRotation;
+        }
+
+        // Walk toward Point B
+        while (Vector3.Distance(characterRoot.position, pointB.position) > 0.05f)
+        {
+            characterRoot.position = Vector3.MoveTowards(
+                characterRoot.position,
+                pointB.position,
+                walkSpeed * Time.deltaTime
+            );
+
+            yield return null;
+        }
+
+        // Stop walking
+        backgroundAnimator.Play("HumanM@Idle01", 0, 0f);
     }
 }
