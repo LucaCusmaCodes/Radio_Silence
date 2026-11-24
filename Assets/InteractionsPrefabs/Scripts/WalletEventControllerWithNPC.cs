@@ -133,10 +133,13 @@ public class WalletEventControllerWithNPC : MonoBehaviour
         // Spawn the man's angry speech object / canvas
         if (manSpeechPrefab != null)
         {
-            Vector3 spawnPos = (spawnLocation != null) ? spawnLocation.position : transform.position;
-            Quaternion spawnRot = (spawnLocation != null) ? spawnLocation.rotation : Quaternion.identity;
+            GameObject speech = Instantiate(manSpeechPrefab);
 
-            Instantiate(manSpeechPrefab, spawnPos, spawnRot);
+            Destroy(speech, 5f);
+        }
+        else
+        {
+            Debug.LogError("Man Speech Prefab is not assigned!");
         }
 
         // Play return clip at world position
