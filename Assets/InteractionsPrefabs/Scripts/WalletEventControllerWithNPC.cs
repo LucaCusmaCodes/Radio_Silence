@@ -26,7 +26,9 @@ public class WalletEventControllerWithNPC : MonoBehaviour
 
     [Header("Man Speech Object")]
     public GameObject manSpeechPrefab;         // Drag your timed speech Canvas/Object prefab here
-    public Transform spawnLocation;            // Optional: Drag a specific spawn point. If empty, spawns at wallet.
+    public Transform spawnLocation;
+    public Transform busTransform;
+    public Camera playerCamera;// Optional: Drag a specific spawn point. If empty, spawns at wallet.
 
     [Header("Player Visual Swap")]
     public Renderer playerRenderer;            // Drag your Player capsule/mesh Renderer here
@@ -131,15 +133,27 @@ public class WalletEventControllerWithNPC : MonoBehaviour
         }
 
         // Spawn the man's angry speech object / canvas
-        if (manSpeechPrefab != null)
+        // Spawn speech as a child of the bus
+        if (manSpeechPrefab != null && busTransform != null)
         {
-            GameObject speech = Instantiate(manSpeechPrefab);
+            GameObject speech = Instantiate(manSpeechPrefab, busTransform);
+
+            // Position speech at the existing spawn point
+            if (spawnLocation != null)
+            {
+                speech.transform.position = spawnLocation.position;
+                speech.transform.rotation = spawnLocation.rotation;
+            }
+
+            // Assign player's camera
+            Canvas speechCanvas = speech.GetComponentInChildren<Canvas>();
+
+            if (speechCanvas != null)
+            {
+                speechCanvas.worldCamera = playerCamera;
+            }
 
             Destroy(speech, 5f);
-        }
-        else
-        {
-            Debug.LogError("Man Speech Prefab is not assigned!");
         }
 
         // Play return clip at world position
