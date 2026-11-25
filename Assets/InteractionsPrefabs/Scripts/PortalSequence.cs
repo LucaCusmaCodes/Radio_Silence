@@ -10,12 +10,10 @@ public class PortalSequence : MonoBehaviour
     public NPCWalker firstNPC;
     public Transform pointB;
     public Highlight_Human firstNPCHighlight;
-    public GameObject firstCustomerCanvas;
 
     [Header("Second Customer")]
     public NPCWalker secondNPC;
     public Transform pointC;
-    public GameObject secondCustomerCanvas;
 
     [Header("Exit Points")]
     public Transform exitPoint1;
@@ -51,12 +49,6 @@ public class PortalSequence : MonoBehaviour
             choiceTimerImage.fillAmount = 1f;
         }
 
-        if (firstCustomerCanvas != null)
-            firstCustomerCanvas.SetActive(false);
-
-        if (secondCustomerCanvas != null)
-            secondCustomerCanvas.SetActive(false);
-
         if (secondNPC != null)
             secondNPC.gameObject.SetActive(false);
     }
@@ -72,19 +64,12 @@ public class PortalSequence : MonoBehaviour
 
     private IEnumerator PlaySequence()
     {
-        // Customer 1 walks to Point B.
-        // Their Canvas appears only while they speak.
-        if (firstCustomerCanvas != null)
-            firstCustomerCanvas.SetActive(true);
-
+        // Customer 1 walks to Point B and speaks.
         yield return StartCoroutine(
             firstNPC.WalkAndTalk(pointB, firstDialogueDuration)
         );
 
-        if (firstCustomerCanvas != null)
-            firstCustomerCanvas.SetActive(false);
-
-        // Show highlighting and countdown.
+        // Enable highlighting and countdown.
         if (firstNPCHighlight != null)
         {
             firstNPCHighlight.SetHighlightEnabled(true);
@@ -97,6 +82,7 @@ public class PortalSequence : MonoBehaviour
             choiceTimerImage.fillAmount = 1f;
         }
 
+        // Wait for E or timeout.
         float timer = 0f;
         bool responded = false;
 
@@ -134,16 +120,10 @@ public class PortalSequence : MonoBehaviour
 
     private IEnumerator HandleResponse()
     {
-        // Customer 1 speaks again.
-        if (firstCustomerCanvas != null)
-            firstCustomerCanvas.SetActive(true);
-
+        // Customer 1 uses the returned-wallet dialogue.
         yield return StartCoroutine(
-            firstNPC.TalkAgain(firstDialogueDuration)
+            firstNPC.TalkAgain(true, firstDialogueDuration)
         );
-
-        if (firstCustomerCanvas != null)
-            firstCustomerCanvas.SetActive(false);
 
         // Play return sound.
         if (returnSound != null)
@@ -155,7 +135,7 @@ public class PortalSequence : MonoBehaviour
             );
         }
 
-        // Returning the wallet gives 0 points.
+        // Returning gives 0 points.
         if (GameManager.Instance != null)
         {
             GameManager.Instance.ProcessChoice(
@@ -170,16 +150,10 @@ public class PortalSequence : MonoBehaviour
             secondNPC.gameObject.SetActive(true);
             secondNPC.TurnRed();
 
-            // Customer 2 speaks while walking to Point C.
-            if (secondCustomerCanvas != null)
-                secondCustomerCanvas.SetActive(true);
-
+            // Customer 2 walks to Point C and speaks.
             yield return StartCoroutine(
                 secondNPC.WalkAndTalk(pointC, secondDialogueDuration)
             );
-
-            if (secondCustomerCanvas != null)
-                secondCustomerCanvas.SetActive(false);
 
             // Both customers walk away.
             yield return StartCoroutine(firstNPC.WalkAway(exitPoint1));
@@ -193,18 +167,12 @@ public class PortalSequence : MonoBehaviour
 
     private IEnumerator HandleIgnoredChoice()
     {
-        // Customer 1 speaks again.
-        if (firstCustomerCanvas != null)
-            firstCustomerCanvas.SetActive(true);
-
+        // Customer 1 uses the ignored-wallet dialogue.
         yield return StartCoroutine(
-            firstNPC.TalkAgain(firstDialogueDuration)
+            firstNPC.TalkAgain(false, firstDialogueDuration)
         );
 
-        if (firstCustomerCanvas != null)
-            firstCustomerCanvas.SetActive(false);
-
-        // Ignoring the customer gives 1 point.
+        // Ignoring gives 1 point.
         if (GameManager.Instance != null)
         {
             GameManager.Instance.ProcessChoice(
@@ -220,6 +188,7 @@ public class PortalSequence : MonoBehaviour
         if (VignetteController.Instance != null)
             VignetteController.Instance.IncreaseDarkness();
 
+        // Customer 1 walks away.
         yield return StartCoroutine(firstNPC.WalkAway(exitPoint1));
     }
 }
