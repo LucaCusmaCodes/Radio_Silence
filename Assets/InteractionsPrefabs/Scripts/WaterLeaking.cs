@@ -45,8 +45,9 @@ public class WaterLeaking : MonoBehaviour
         }
         if(WaterDroplet.transform.position.y<-10)
         {
-            WaterDroplet.transform.position+= new Vector3(0, 10, 0);
-            WaterDroplet.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            WaterDroplet.transform.position += new Vector3(0, 10, 0);
+            var rb = WaterDroplet.GetComponent<Rigidbody>();
+            rb.linearVelocity = Vector3.zero;
         }
     }
 }
