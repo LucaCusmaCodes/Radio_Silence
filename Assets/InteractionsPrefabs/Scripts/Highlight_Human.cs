@@ -112,11 +112,19 @@ public class Highlight_Human : MonoBehaviour
             return;
 
         bool shouldHighlight = highlightAllowed && isNearPlayer;
+        if (highlightAllowed)
+        { Debug.Log("test6"); }
+        if (isNearPlayer)
+        {
+            Debug.Log("test5");
+        }
 
         if (shouldHighlight)
         {
+            Debug.Log("test1");
             if (highlightCoroutine == null)
             {
+                Debug.Log("test");
                 highlightCoroutine = StartCoroutine(PulseHighlight());
             }
         }

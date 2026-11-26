@@ -116,7 +116,8 @@ public class NPCWalker : MonoBehaviour
 
         foreach (Renderer rend in renderers)
         {
-            rend.material.color = Color.red;
+            if (rend.gameObject.tag == "Skin") 
+            { rend.material.color = Color.red; }
         }
     }
 }
