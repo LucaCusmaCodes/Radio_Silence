@@ -12,7 +12,6 @@ public class Highlight_Human : MonoBehaviour
 
     private Material highlightMaterial;
     private Color originalColor;
-
     private bool highlightAllowed = false;
     private bool isNearPlayer = false;
 
@@ -21,7 +20,9 @@ public class Highlight_Human : MonoBehaviour
     private void Awake()
     {
         if (targetRenderer == null)
+        {
             targetRenderer = GetComponentInChildren<Renderer>();
+        }
 
         if (targetRenderer != null)
         {
@@ -38,8 +39,12 @@ public class Highlight_Human : MonoBehaviour
     {
         highlightAllowed = enabled;
 
+        Debug.Log("Highlight allowed: " + enabled);
+
         if (!enabled)
+        {
             isNearPlayer = false;
+        }
 
         UpdateHighlight();
     }
@@ -64,9 +69,12 @@ public class Highlight_Human : MonoBehaviour
 
         foreach (Collider col in colliders)
         {
+            Debug.Log("Overlap detected: " + col.name);
+
             if (col.transform.root.CompareTag("Player"))
             {
                 isNearPlayer = true;
+                Debug.Log("PLAYER ALREADY INSIDE DETECTION CUBE!");
                 break;
             }
         }
@@ -76,18 +84,24 @@ public class Highlight_Human : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Something entered the highlight zone: " + other.name);
+
         if (other.transform.root.CompareTag("Player"))
         {
             isNearPlayer = true;
+            Debug.Log("PLAYER ENTERED HIGHLIGHT ZONE!");
             UpdateHighlight();
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        Debug.Log("Something exited the highlight zone: " + other.name);
+
         if (other.transform.root.CompareTag("Player"))
         {
             isNearPlayer = false;
+            Debug.Log("PLAYER LEFT HIGHLIGHT ZONE!");
             UpdateHighlight();
         }
     }
@@ -102,7 +116,9 @@ public class Highlight_Human : MonoBehaviour
         if (shouldHighlight)
         {
             if (highlightCoroutine == null)
+            {
                 highlightCoroutine = StartCoroutine(PulseHighlight());
+            }
         }
         else
         {
@@ -141,7 +157,6 @@ public class Highlight_Human : MonoBehaviour
 
         highlightMaterial.DisableKeyword("_EMISSION");
         highlightMaterial.color = originalColor;
-
         highlightCoroutine = null;
     }
 

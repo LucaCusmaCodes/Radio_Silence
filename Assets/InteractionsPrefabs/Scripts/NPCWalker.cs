@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
@@ -7,27 +8,26 @@ public class NPCWalker : MonoBehaviour
     private NavMeshAgent agent;
     private Animator animator;
 
-    [Header("Dialogue")]
     public GameObject speechBubble;
     public GameObject secondSpeechBubble;
-    public GameObject ignoredSpeechBubble;
 
-    private void Awake()
+    void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
 
         if (speechBubble != null)
+        {
             speechBubble.SetActive(false);
+        }
 
         if (secondSpeechBubble != null)
+        {
             secondSpeechBubble.SetActive(false);
-
-        if (ignoredSpeechBubble != null)
-            ignoredSpeechBubble.SetActive(false);
+        }
     }
 
-    private void Update()
+    void Update()
     {
         if (animator != null && agent != null)
         {
@@ -35,9 +35,7 @@ public class NPCWalker : MonoBehaviour
         }
     }
 
-    public IEnumerator WalkAndTalk(
-        Transform destination,
-        float dialogueDuration)
+    public IEnumerator WalkAndTalk(Transform destination, float dialogueDuration)
     {
         if (agent == null || destination == null)
         {
@@ -45,72 +43,47 @@ public class NPCWalker : MonoBehaviour
             yield break;
         }
 
-        if (!agent.isOnNavMesh)
-        {
-            Debug.LogError(name + " is not on a NavMesh!");
-            yield break;
-        }
-
+        // Walk to the destination
         agent.isStopped = false;
         agent.SetDestination(destination.position);
 
-        while (agent.pathPending)
-            yield return null;
-
-        if (agent.pathStatus == NavMeshPathStatus.PathInvalid)
-        {
-            Debug.LogError(name + " has an invalid path!");
-            yield break;
-        }
-
-        while (agent.remainingDistance > agent.stoppingDistance + 0.1f ||
+        // Wait until the customer arrives
+        while (agent.pathPending ||
+               agent.remainingDistance > agent.stoppingDistance + 0.1f ||
                agent.velocity.sqrMagnitude >= 0.05f)
         {
-            if (!agent.pathPending &&
-                agent.pathStatus == NavMeshPathStatus.PathInvalid)
-            {
-                Debug.LogError(name + " cannot reach destination!");
-                yield break;
-            }
-
             yield return null;
         }
 
-        // Show initial dialogue.
+        // Display dialogue
         if (speechBubble != null)
+        {
             speechBubble.SetActive(true);
+        }
 
         Debug.Log(name + " is talking!");
 
+        // Keep dialogue visible for the specified duration
         yield return new WaitForSeconds(dialogueDuration);
 
+        // Hide dialogue
         if (speechBubble != null)
+        {
             speechBubble.SetActive(false);
+        }
     }
 
-    public IEnumerator TalkAgain(
-        bool returnedWallet,
-        float dialogueDuration)
+    public IEnumerator TalkAgain(float dialogueDuration)
     {
-        GameObject dialogueToShow = returnedWallet
-            ? secondSpeechBubble
-            : ignoredSpeechBubble;
-
-        if (dialogueToShow != null)
+        if (secondSpeechBubble != null)
         {
-            dialogueToShow.SetActive(true);
+            secondSpeechBubble.SetActive(true);
 
-            Debug.Log(name + " is speaking again!");
+            Debug.Log("Customer 1 is saying something else!");
 
             yield return new WaitForSeconds(dialogueDuration);
 
-            dialogueToShow.SetActive(false);
-        }
-        else
-        {
-            Debug.LogWarning(
-                "The required second dialogue Canvas is missing on " + name
-            );
+            secondSpeechBubble.SetActive(false);
         }
     }
 
@@ -122,25 +95,11 @@ public class NPCWalker : MonoBehaviour
             yield break;
         }
 
-        if (!agent.isOnNavMesh)
-        {
-            Debug.LogError(name + " is not on a NavMesh!");
-            yield break;
-        }
-
         agent.isStopped = false;
         agent.SetDestination(exitDestination.position);
 
-        while (agent.pathPending)
-            yield return null;
-
-        if (agent.pathStatus == NavMeshPathStatus.PathInvalid)
-        {
-            Debug.LogError(name + " has an invalid exit path!");
-            yield break;
-        }
-
-        while (agent.remainingDistance > agent.stoppingDistance + 0.1f ||
+        while (agent.pathPending ||
+               agent.remainingDistance > agent.stoppingDistance + 0.1f ||
                agent.velocity.sqrMagnitude >= 0.05f)
         {
             yield return null;
@@ -148,6 +107,8 @@ public class NPCWalker : MonoBehaviour
 
         gameObject.SetActive(false);
     }
+
+    // Your existing TurnRed method
 
     public void TurnRed()
     {
