@@ -27,30 +27,22 @@ public class PortalSequence : MonoBehaviour
     [Header("Countdown Circle")]
     public Image choiceTimerImage;
 
-    [Header("Audio")]
-    public AudioClip returnSound;
-    [Range(0f, 1f)]
-    public float soundVolume = 1f;
-
-    [Header("Score Changes")]
-    public int returnScoreChange = 0;
-    public int ignoredScoreChange = 1;
-
     private bool sequenceStarted = false;
 
     private void Awake()
     {
+        // Disable the highlight at the beginning.
         if (firstNPCHighlight != null)
+        {
             firstNPCHighlight.SetHighlightEnabled(false);
+        }
 
+        // Hide the countdown circle at the beginning.
         if (choiceTimerImage != null)
         {
             choiceTimerImage.gameObject.SetActive(false);
             choiceTimerImage.fillAmount = 1f;
         }
-
-        if (secondNPC != null)
-            secondNPC.gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -69,31 +61,35 @@ public class PortalSequence : MonoBehaviour
             firstNPC.WalkAndTalk(pointB, firstDialogueDuration)
         );
 
-        // Enable highlighting and countdown.
+        // Enable highlighting and check whether
+        // the player is already inside the detection area.
         if (firstNPCHighlight != null)
         {
             firstNPCHighlight.SetHighlightEnabled(true);
             firstNPCHighlight.CheckPlayerNearby();
         }
 
+        // Show the countdown circle.
         if (choiceTimerImage != null)
         {
             choiceTimerImage.gameObject.SetActive(true);
             choiceTimerImage.fillAmount = 1f;
         }
 
-        // Wait for E or timeout.
+        // Wait for the player to press E.
         float timer = 0f;
         bool responded = false;
 
         while (timer < responseTimeLimit)
         {
+            // Gradually empty the countdown circle.
             if (choiceTimerImage != null)
             {
                 choiceTimerImage.fillAmount =
                     1f - (timer / responseTimeLimit);
             }
 
+            // Check whether the player pressed E.
             if (Keyboard.current != null &&
                 Keyboard.current.eKey.wasPressedThisFrame)
             {
@@ -105,52 +101,24 @@ public class PortalSequence : MonoBehaviour
             yield return null;
         }
 
-        // Hide countdown and highlighting.
+        // Hide the countdown circle.
         if (choiceTimerImage != null)
+        {
             choiceTimerImage.gameObject.SetActive(false);
+        }
 
+        // Disable highlighting after the response period.
         if (firstNPCHighlight != null)
+        {
             firstNPCHighlight.SetHighlightEnabled(false);
+        }
 
         if (responded)
-            yield return StartCoroutine(HandleResponse());
-        else
-            yield return StartCoroutine(HandleIgnoredChoice());
-    }
-
-    private IEnumerator HandleResponse()
-    {
-        // Customer 1 uses the returned-wallet dialogue.
-        yield return StartCoroutine(
-            firstNPC.TalkAgain(true, firstDialogueDuration)
-        );
-
-        // Play return sound.
-        if (returnSound != null)
         {
-            AudioSource.PlayClipAtPoint(
-                returnSound,
-                transform.position,
-                soundVolume
-            );
-        }
-
-        // Returning gives 0 points.
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.ProcessChoice(
-                "Returned Wallet",
-                returnScoreChange
-            );
-        }
-
-        // Customer 2 appears and turns red.
-        if (secondNPC != null)
-        {
+            // Customer 2 appears and turns red.
             secondNPC.gameObject.SetActive(true);
             secondNPC.TurnRed();
 
-            // Customer 2 walks to Point C and speaks.
             yield return StartCoroutine(
                 secondNPC.WalkAndTalk(pointC, secondDialogueDuration)
             );
@@ -161,34 +129,31 @@ public class PortalSequence : MonoBehaviour
         }
         else
         {
+            // Customer 1 speaks again.
+            yield return StartCoroutine(
+                firstNPC.TalkAgain(firstDialogueDuration)
+            );
+
+            // Increase score.
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.ProcessChoice("Ignored Customer", 1);
+            }
+
+            // Change music.
+            if (MusicManager.Instance != null)
+            {
+                MusicManager.Instance.ApplyPitchDropStep();
+            }
+
+            // Darken vignette.
+            if (VignetteController.Instance != null)
+            {
+                VignetteController.Instance.IncreaseDarkness();
+            }
+
+            // Customer 1 walks away.
             yield return StartCoroutine(firstNPC.WalkAway(exitPoint1));
         }
-    }
-
-    private IEnumerator HandleIgnoredChoice()
-    {
-        // Customer 1 uses the ignored-wallet dialogue.
-        yield return StartCoroutine(
-            firstNPC.TalkAgain(false, firstDialogueDuration)
-        );
-
-        // Ignoring gives 1 point.
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.ProcessChoice(
-                "Ignored Customer",
-                ignoredScoreChange
-            );
-        }
-
-        // Apply negative consequences.
-        if (MusicManager.Instance != null)
-            MusicManager.Instance.ApplyPitchDropStep();
-
-        if (VignetteController.Instance != null)
-            VignetteController.Instance.IncreaseDarkness();
-
-        // Customer 1 walks away.
-        yield return StartCoroutine(firstNPC.WalkAway(exitPoint1));
     }
 }
