@@ -139543,7 +139543,7 @@ Transform:
   m_GameObject: {fileID: 481958961}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -13.531296, y: 0, z: -1.4378967}
+  m_LocalPosition: {x: -13.531296, y: 0, z: -4.29}
   m_LocalScale: {x: 0.23809, y: 10.4388, z: 27.023382}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -231346,7 +231346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b75c7f6aee6ad46379ac59373f3769a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OnTriggerActivate
-  ObjectToActivate: {fileID: 1932150654}
+  ObjectToActivate: {fileID: 0}
 --- !u!65 &791758588
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -306385,7 +306385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCWalker
   speechBubble: {fileID: 350168227}
   secondSpeechBubble: {fileID: 1386314654}
-  thirdSpeechBubble: {fileID: 1776797777}
+  thirdSpeechBubble: {fileID: 0}
 --- !u!195 &1027591252
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -351522,7 +351522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b75c7f6aee6ad46379ac59373f3769a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OnTriggerActivate
-  ObjectToActivate: {fileID: 2021276120}
+  ObjectToActivate: {fileID: 0}
 --- !u!65 &1188139340
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -476450,7 +476450,7 @@ Transform:
   m_GameObject: {fileID: 1608373890}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -13.531296, y: 0, z: -1.4378996}
+  m_LocalPosition: {x: -13.531296, y: 0, z: -4.33}
   m_LocalScale: {x: 0.23809, y: 10.4388, z: 27.023382}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -528625,11 +528625,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d70a8887ddc6eea48bd3ca2da5516e3b, type: 3}
   m_PrefabInstance: {fileID: 1776721101}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1776797777 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2023681708119175826, guid: 8e37e1041b64dec459030a517b3f5b92, type: 3}
-  m_PrefabInstance: {fileID: 1879930556}
   m_PrefabAsset: {fileID: 0}
 --- !u!224 &1776797778 stripped
 RectTransform:
