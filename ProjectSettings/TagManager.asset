@@ -8,6 +8,7 @@ TagManager:
   - Manager
   - Customer
   - Skin
+  - WalletCharacter
   layers:
   - Default
   - TransparentFX
