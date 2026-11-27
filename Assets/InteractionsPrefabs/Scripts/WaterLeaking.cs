@@ -11,7 +11,7 @@ public class WaterLeaking : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        WaterDroplet.GetComponent<Renderer>().material.color = new Color(0, 0, 1, 0.5f);
+        //WaterDroplet.GetComponent<Renderer>().material.color = new Color(0, 0, 1, 0.5f);
         GameObject droplet1 = Instantiate(WaterDroplet, LeakLocation.transform.position, LeakLocation.transform.rotation);
         GameObject droplet2 = Instantiate(WaterDroplet, LeakLocation.transform.position, LeakLocation.transform.rotation);
         GameObject droplet3 = Instantiate(WaterDroplet, LeakLocation.transform.position, LeakLocation.transform.rotation);
@@ -42,6 +42,12 @@ public class WaterLeaking : MonoBehaviour
             Destroy(Droplets[0]);
             Droplets.RemoveAt(0);
             Rate = 0;
+        }
+        if(WaterDroplet.transform.position.y<-10)
+        {
+            WaterDroplet.transform.position += new Vector3(0, 10, 0);
+            var rb = WaterDroplet.GetComponent<Rigidbody>();
+            rb.linearVelocity = Vector3.zero;
         }
     }
 }
