@@ -231346,7 +231346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b75c7f6aee6ad46379ac59373f3769a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OnTriggerActivate
-  ObjectToActivate: {fileID: 0}
+  ObjectToActivate: {fileID: 1932150654}
 --- !u!65 &791758588
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -351522,7 +351522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b75c7f6aee6ad46379ac59373f3769a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OnTriggerActivate
-  ObjectToActivate: {fileID: 0}
+  ObjectToActivate: {fileID: 2021276120}
 --- !u!65 &1188139340
 BoxCollider:
   m_ObjectHideFlags: 0
