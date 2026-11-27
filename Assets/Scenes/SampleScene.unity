@@ -67198,6 +67198,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas 22
       objectReference: {fileID: 0}
+    - target: {fileID: 8870055828643750387, guid: ecd7d3cf2ea496847aa85986dbaa9dc4, type: 3}
+      propertyPath: lifetime
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -155897,15 +155901,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f1e6812b3c0eee24da54bdc4c823ebb8, type: 3}
       propertyPath: m_LocalScale.x
-      value: 3.025621
+      value: 2.9463754
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f1e6812b3c0eee24da54bdc4c823ebb8, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3.2131608
+      value: 2.588202
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f1e6812b3c0eee24da54bdc4c823ebb8, type: 3}
       propertyPath: m_LocalScale.z
-      value: 3.025621
+      value: 2.31829
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f1e6812b3c0eee24da54bdc4c823ebb8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -155913,7 +155917,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f1e6812b3c0eee24da54bdc4c823ebb8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.14
+      value: -0.73689
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f1e6812b3c0eee24da54bdc4c823ebb8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -287091,7 +287095,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 962732294}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -513627,7 +513631,7 @@ Transform:
   m_GameObject: {fileID: 1729782414}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -152.58, y: -1.42, z: -77.78}
+  m_LocalPosition: {x: -147.44, y: -1.42, z: -72.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -534916,6 +534920,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 193323465437373562, guid: f1e6812b3c0eee24da54bdc4c823ebb8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f4b66c771982f8447b508766c4f8b466, type: 2}
     - target: {fileID: 919132149155446097, guid: f1e6812b3c0eee24da54bdc4c823ebb8, type: 3}
       propertyPath: m_Name
       value: Manager
@@ -558026,6 +558034,10 @@ PrefabInstance:
     - target: {fileID: 2023681708119175826, guid: 8e37e1041b64dec459030a517b3f5b92, type: 3}
       propertyPath: m_Name
       value: Canvas 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 4058279580769554555, guid: 8e37e1041b64dec459030a517b3f5b92, type: 3}
+      propertyPath: lifetime
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

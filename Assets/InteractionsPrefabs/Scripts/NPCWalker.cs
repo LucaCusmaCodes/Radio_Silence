@@ -75,15 +75,23 @@ public class NPCWalker : MonoBehaviour
 
     public IEnumerator TalkAgain(float dialogueDuration)
     {
-        if (secondSpeechBubble != null)
+        GameObject bubble = secondSpeechBubble;
+
+        if (bubble == null)
         {
-            secondSpeechBubble.SetActive(true);
+            Debug.LogError("Second Speech Bubble is missing on " + name);
+            yield break;
+        }
 
-            Debug.Log("Customer 1 is saying something else!");
+        bubble.SetActive(true);
 
-            yield return new WaitForSeconds(dialogueDuration);
+        Debug.Log("Customer 1 is saying something else!");
 
-            secondSpeechBubble.SetActive(false);
+        yield return new WaitForSeconds(dialogueDuration);
+
+        if (bubble != null)
+        {
+            bubble.SetActive(false);
         }
     }
 
