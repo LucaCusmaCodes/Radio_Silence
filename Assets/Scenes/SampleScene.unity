@@ -155990,12 +155990,15 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: f1e6812b3c0eee24da54bdc4c823ebb8, type: 3}
       insertIndex: 0
-      addedObject: {fileID: 1776797778}
+      addedObject: {fileID: 1386314655}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: f1e6812b3c0eee24da54bdc4c823ebb8, type: 3}
       insertIndex: 1
-      addedObject: {fileID: 350168228}
+      addedObject: {fileID: 1776797778}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: f1e6812b3c0eee24da54bdc4c823ebb8, type: 3}
       insertIndex: 2
+      addedObject: {fileID: 350168228}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: f1e6812b3c0eee24da54bdc4c823ebb8, type: 3}
+      insertIndex: 3
       addedObject: {fileID: 962732295}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f1e6812b3c0eee24da54bdc4c823ebb8, type: 3}
@@ -307378,7 +307381,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCWalker
   speechBubble: {fileID: 350168227}
-  secondSpeechBubble: {fileID: 1776797777}
+  secondSpeechBubble: {fileID: 1386314654}
+  thirdSpeechBubble: {fileID: 1776797777}
 --- !u!195 &1027591252
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -374989,6 +374993,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCWalker
   speechBubble: {fileID: 82838514}
   secondSpeechBubble: {fileID: 0}
+  thirdSpeechBubble: {fileID: 0}
 --- !u!195 &1260317978
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -380586,6 +380591,111 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1276715090}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1276961085
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1027591249}
+    m_Modifications:
+    - target: {fileID: 768141352194856051, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 768141352194856051, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 768141352194856051, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 768141352194856051, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 768141352194856051, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 768141352194856051, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 768141352194856051, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 768141352194856051, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 768141352194856051, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 768141352194856051, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 768141352194856051, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 768141352194856051, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 768141352194856051, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 768141352194856051, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 768141352194856051, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 768141352194856051, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 768141352194856051, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 768141352194856051, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 768141352194856051, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 768141352194856051, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2214181372972488106, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_Name
+      value: Canvas 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 2214181372972488106, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4502257780750240632, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 124313d4db752ad478f37f257aec507c, type: 3}
 --- !u!1 &1276999473
 GameObject:
   m_ObjectHideFlags: 0
@@ -411114,6 +411224,16 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1384862921}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1386314654 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2214181372972488106, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+  m_PrefabInstance: {fileID: 1276961085}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1386314655 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 768141352194856051, guid: 124313d4db752ad478f37f257aec507c, type: 3}
+  m_PrefabInstance: {fileID: 1276961085}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1386364732
 GameObject:
   m_ObjectHideFlags: 0
@@ -603812,10 +603932,13 @@ MonoBehaviour:
   firstNPCHighlight: {fileID: 962732296}
   secondNPC: {fileID: 1260317977}
   pointC: {fileID: 1615138956}
+  manager: {fileID: 0}
+  afterEManagerDelay: 2
   exitPoint1: {fileID: 1729782415}
   exitPoint2: {fileID: 1815553103}
   firstDialogueDuration: 5
   secondDialogueDuration: 5
+  thirdDialogueDuration: 5
   responseTimeLimit: 10
   choiceTimerImage: {fileID: 815266468}
 --- !u!1 &2043294383

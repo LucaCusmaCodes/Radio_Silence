@@ -15,6 +15,10 @@ public class PortalSequence : MonoBehaviour
     public NPCWalker secondNPC;
     public Transform pointC;
 
+    [Header("Manager")]
+    public GameObject manager;
+    public float afterEManagerDelay = 2f;
+
     [Header("Exit Points")]
     public Transform exitPoint1;
     public Transform exitPoint2;
@@ -22,6 +26,7 @@ public class PortalSequence : MonoBehaviour
     [Header("Dialogue Settings")]
     public float firstDialogueDuration = 5f;
     public float secondDialogueDuration = 5f;
+    public float thirdDialogueDuration = 5f;
     public float responseTimeLimit = 10f;
 
     [Header("Countdown Circle")]
@@ -31,18 +36,17 @@ public class PortalSequence : MonoBehaviour
 
     private void Awake()
     {
-        // Disable the highlight at the beginning.
         if (firstNPCHighlight != null)
-        {
             firstNPCHighlight.SetHighlightEnabled(false);
-        }
 
-        // Hide the countdown circle at the beginning.
         if (choiceTimerImage != null)
         {
             choiceTimerImage.gameObject.SetActive(false);
             choiceTimerImage.fillAmount = 1f;
         }
+
+        if (manager != null)
+            manager.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -61,35 +65,26 @@ public class PortalSequence : MonoBehaviour
             firstNPC.WalkAndTalk(pointB, firstDialogueDuration)
         );
 
-        // Enable highlighting and check whether
-        // the player is already inside the detection area.
         if (firstNPCHighlight != null)
         {
             firstNPCHighlight.SetHighlightEnabled(true);
             firstNPCHighlight.CheckPlayerNearby();
         }
 
-        // Show the countdown circle.
         if (choiceTimerImage != null)
         {
             choiceTimerImage.gameObject.SetActive(true);
             choiceTimerImage.fillAmount = 1f;
         }
 
-        // Wait for the player to press E.
         float timer = 0f;
         bool responded = false;
 
         while (timer < responseTimeLimit)
         {
-            // Gradually empty the countdown circle.
             if (choiceTimerImage != null)
-            {
-                choiceTimerImage.fillAmount =
-                    1f - (timer / responseTimeLimit);
-            }
+                choiceTimerImage.fillAmount = 1f - (timer / responseTimeLimit);
 
-            // Check whether the player pressed E.
             if (Keyboard.current != null &&
                 Keyboard.current.eKey.wasPressedThisFrame)
             {
@@ -101,24 +96,24 @@ public class PortalSequence : MonoBehaviour
             yield return null;
         }
 
-        // Hide the countdown circle.
         if (choiceTimerImage != null)
-        {
             choiceTimerImage.gameObject.SetActive(false);
-        }
 
-        // Disable highlighting after the response period.
         if (firstNPCHighlight != null)
-        {
             firstNPCHighlight.SetHighlightEnabled(false);
-        }
 
         if (responded)
         {
-            // Customer 2 appears and turns red.
+            // Customer 1 speaks after E.
+            yield return StartCoroutine(
+                firstNPC.TalkAfterE(thirdDialogueDuration)
+            );
+
+            // Customer 2 (the manager) appears and turns red.
             secondNPC.gameObject.SetActive(true);
             secondNPC.TurnRed();
 
+            // Customer 2 walks to Point C and speaks.
             yield return StartCoroutine(
                 secondNPC.WalkAndTalk(pointC, secondDialogueDuration)
             );
@@ -129,30 +124,20 @@ public class PortalSequence : MonoBehaviour
         }
         else
         {
-            // Customer 1 speaks again.
+            // Customer 1 speaks if E was NOT pressed.
             yield return StartCoroutine(
-                firstNPC.TalkAgain(firstDialogueDuration)
+                firstNPC.TalkAgain(secondDialogueDuration)
             );
 
-            // Increase score.
             if (GameManager.Instance != null)
-            {
                 GameManager.Instance.ProcessChoice("Ignored Customer", 1);
-            }
 
-            // Change music.
             if (MusicManager.Instance != null)
-            {
                 MusicManager.Instance.ApplyPitchDropStep();
-            }
 
-            // Darken vignette.
             if (VignetteController.Instance != null)
-            {
                 VignetteController.Instance.IncreaseDarkness();
-            }
 
-            // Customer 1 walks away.
             yield return StartCoroutine(firstNPC.WalkAway(exitPoint1));
         }
     }

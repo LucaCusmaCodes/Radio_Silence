@@ -10,6 +10,7 @@ public class NPCWalker : MonoBehaviour
 
     public GameObject speechBubble;
     public GameObject secondSpeechBubble;
+    public GameObject thirdSpeechBubble;
 
     void Awake()
     {
@@ -17,14 +18,13 @@ public class NPCWalker : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
 
         if (speechBubble != null)
-        {
             speechBubble.SetActive(false);
-        }
 
         if (secondSpeechBubble != null)
-        {
             secondSpeechBubble.SetActive(false);
-        }
+
+        if (thirdSpeechBubble != null)
+            thirdSpeechBubble.SetActive(false);
     }
 
     void Update()
@@ -43,11 +43,9 @@ public class NPCWalker : MonoBehaviour
             yield break;
         }
 
-        // Walk to the destination
         agent.isStopped = false;
         agent.SetDestination(destination.position);
 
-        // Wait until the customer arrives
         while (agent.pathPending ||
                agent.remainingDistance > agent.stoppingDistance + 0.1f ||
                agent.velocity.sqrMagnitude >= 0.05f)
@@ -55,22 +53,15 @@ public class NPCWalker : MonoBehaviour
             yield return null;
         }
 
-        // Display dialogue
         if (speechBubble != null)
-        {
             speechBubble.SetActive(true);
-        }
 
         Debug.Log(name + " is talking!");
 
-        // Keep dialogue visible for the specified duration
         yield return new WaitForSeconds(dialogueDuration);
 
-        // Hide dialogue
         if (speechBubble != null)
-        {
             speechBubble.SetActive(false);
-        }
     }
 
     public IEnumerator TalkAgain(float dialogueDuration)
@@ -90,9 +81,27 @@ public class NPCWalker : MonoBehaviour
         yield return new WaitForSeconds(dialogueDuration);
 
         if (bubble != null)
-        {
             bubble.SetActive(false);
+    }
+
+    public IEnumerator TalkAfterE(float dialogueDuration)
+    {
+        GameObject bubble = thirdSpeechBubble;
+
+        if (bubble == null)
+        {
+            Debug.LogError("Third Speech Bubble is missing on " + name);
+            yield break;
         }
+
+        bubble.SetActive(true);
+
+        Debug.Log("Customer 1 is speaking after E!");
+
+        yield return new WaitForSeconds(dialogueDuration);
+
+        if (bubble != null)
+            bubble.SetActive(false);
     }
 
     public IEnumerator WalkAway(Transform exitDestination)
@@ -116,16 +125,16 @@ public class NPCWalker : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // Your existing TurnRed method
-
     public void TurnRed()
     {
         Renderer[] renderers = GetComponentsInChildren<Renderer>();
 
         foreach (Renderer rend in renderers)
         {
-            if (rend.gameObject.tag == "Skin") 
-            { rend.material.color = Color.red; }
+            if (rend.gameObject.CompareTag("Skin"))
+            {
+                rend.material.color = Color.red;
+            }
         }
     }
 }
