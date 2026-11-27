@@ -189234,8 +189234,8 @@ MonoBehaviour:
   targetRenderer: {fileID: 759062903}
   glowColor: {r: 0.015686274, g: 1, b: 0.9088156, a: 1}
   pulseSpeed: 3
-  minIntensity: 0.5
-  maxIntensity: 3
+  minIntensity: 0.2
+  maxIntensity: 2.7
   fadeSpeed: 5
 --- !u!114 &649356856
 MonoBehaviour:
@@ -189294,10 +189294,28 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.6
+  m_Radius: 2
   m_Height: 10
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &649356859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649356853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eb0034d2b009004a8e4efc60a45d4f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterAngryTrigger
+  highlightScript: {fileID: 649356855}
+  returnKey: 101
+  playerRenderer: {fileID: 759062903}
+  angryMaterial: {fileID: 0}
+  useColorSwapInstead: 1
+  angryColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &649925881
 GameObject:
   m_ObjectHideFlags: 0
@@ -390862,15 +390880,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2862278905927072855, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -22.49
+      value: -22.490002
       objectReference: {fileID: 0}
     - target: {fileID: 2862278905927072855, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.786317
+      value: 10.786318
       objectReference: {fileID: 0}
     - target: {fileID: 2862278905927072855, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -23.94879
+      value: -23.948792
       objectReference: {fileID: 0}
     - target: {fileID: 4253012990419024484, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -607791,6 +607809,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8a491e746f128f343bd34f307f99facc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 649356858}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8a491e746f128f343bd34f307f99facc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 649356859}
   m_SourcePrefab: {fileID: 100100000, guid: 8a491e746f128f343bd34f307f99facc, type: 3}
 --- !u!1 &2057844003
 GameObject:
