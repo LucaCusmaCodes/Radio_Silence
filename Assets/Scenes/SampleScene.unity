@@ -633602,6 +633602,7 @@ GameObject:
   - component: {fileID: 2145251258}
   - component: {fileID: 2145251256}
   - component: {fileID: 2145251262}
+  - component: {fileID: 2145251263}
   m_Layer: 0
   m_Name: Food
   m_TagString: Untagged
@@ -633758,6 +633759,34 @@ MonoBehaviour:
   keepScoreChange: 1
   returnSound: {fileID: 8300000, guid: e75b75671794d3b46b43415a2d615725, type: 3}
   soundVolume: 1
+--- !u!114 &2145251263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2145251255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ce938d61d836d042b0e1b5c84ac52e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PortalSequence1
+  firstNPC: {fileID: 0}
+  pointB: {fileID: 0}
+  firstNPCHighlight: {fileID: 0}
+  secondNPC: {fileID: 0}
+  pointC: {fileID: 0}
+  manager: {fileID: 0}
+  afterEManagerDelay: 2
+  exitPoint1: {fileID: 0}
+  exitPoint2: {fileID: 0}
+  firstDialogueDuration: 5
+  secondDialogueDuration: 5
+  thirdDialogueDuration: 5
+  responseTimeLimit: 10
+  restrictByScore: 1
+  maxScoreToInteract: 6
+  choiceTimerImage: {fileID: 0}
 --- !u!1 &2145427955
 GameObject:
   m_ObjectHideFlags: 0
